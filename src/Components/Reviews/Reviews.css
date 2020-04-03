@@ -1,0 +1,36 @@
+.comment-p {
+    padding: 15px;
+}
+.check {
+    background: green;
+    border-radius: 50%;
+    margin-top: 29px;
+}
+h2 {
+    font-size: 5.5vw;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+button { 
+    width: 100%;
+}
+input {
+    font-size: 9px !important;
+}
+input:focus {
+    border-bottom: 1px solid red !important;
+    box-shadow: red !important;
+    font-size: 9px !important;
+}
+
+.active {
+color: red !important;
+}
+.pencil {
+    font-size: 20px !important;
+    padding-top: 10px !important;
+}
+.collection .collection-item.avatar {
+    padding: 15px !important;
+}

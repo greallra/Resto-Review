@@ -6,19 +6,23 @@ import Restaurants from './Components/Restaurants/Restaurants';
 import Reviews from './Components/Reviews/Reviews';
 import RestaurantList from './Components/RestaurantList/RestaurantList';
 import ReviewList from './Components/ReviewList/ReviewList';
+import MoreInfo from './Components/MoreInfo/MoreInfo';
 
 function App() {
   return (
     <BrowserRouter>
     <div className="App">
       <Switch>
-          <Route path="/restaurants">
+          <Route path="/restaurants" exact>
             <Restaurants />
+          </Route>
+          <Route path="/restaurants/:dynamic">
+            <MoreInfo />
           </Route>
           <Route path="/reviews">
             <Reviews />
           </Route>
-          <Route path="/restaurants-list">
+          <Route path="/restaurants-list" exact>
             <RestaurantList />
           </Route>
           <Route path="/reviews-list">

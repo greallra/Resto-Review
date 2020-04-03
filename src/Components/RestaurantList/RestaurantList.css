@@ -1,0 +1,33 @@
+img {
+    /* width: 150px;
+    height: 150px; */
+}
+
+.card-content {
+    padding: 5px 5px 2px 5px !important;
+    font-size: 10px;
+}
+.card {
+    width: 100%;
+    min-height: 614px;
+    vertical-align: top;
+    margin: 10px;
+}
+teal lighten-4
+.card-content .address {
+    min-height: 55px;
+}
+.card-content .food-type {
+    min-height: 55px;
+}
+/* @media only screen and (min-width: 500px) {
+    .card {
+        display: inline-block;
+        width: 50%;
+    }
+}
+@media only screen and (min-width: 700px) {
+    .card {
+        width: 33%;
+    }
+} */

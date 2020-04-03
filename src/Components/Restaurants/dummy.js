@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import {Link, withRouter } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import '../RestaurantList/RestaurantList.css'
-import Map from '../MoreInfo/MapContainer';
 
 
-const RestaurantList = withRouter(props => <RestaurantListNoRouter  {...props}/>);
-class RestaurantListNoRouter extends Component {
+
+class Dummy extends Component {
   state = {
     visible: true,
     restsList: [],
@@ -127,33 +126,29 @@ class RestaurantListNoRouter extends Component {
  
   //data structure of restList is results_found.restaurants array
    return this.state.listToRender.map((restObject, index)=>{
-     return (   
-              <div className={`card col s12 m6 l4`} key={index}>
-                <div className="card-image">
-                  <img src={restObject.restaurant.thumb}  alt=""/>
-                  <span className="card-title">{restObject.restaurant.name}</span>
+     return (
+                <div className="card">
+                  <div className="card-image">
+                    <img src={restObject.restaurant.thumb}  alt=""/>
+                    <span className="card-title">{restObject.restaurant.name}</span>
+                  </div>
+                  <div className="card-content">
+                    <p><b>Address:</b>{restObject.restaurant.location.address}</p>
+                  </div>
+                  <div className="card-content">
+                    <p><b>Food Type:</b>{restObject.restaurant.cuisines}</p>
+                  </div>
+                  <div className="card-content">
+                    <p><b>Rating:</b><span>{restObject.restaurant.user_rating.aggregate_rating}</span> </p>
+                  </div>
+                  <div className="card-content">
+                    <p><b>Comments:</b></p>
+                    <p><i><span>	&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span></i></p>
+                  </div>
+                  <div className="card-action">
+                    <Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link>
+                  </div>
                 </div>
-                <div className="card-content">      
-                  <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
-                </div>
-                <div className="card-content">
-                  <p className="address"><b>Address:</b>{restObject.restaurant.location.address}</p>
-                </div>
-                <div className="card-content">
-                  <p className="food-type"><b>Food Type:</b>{restObject.restaurant.cuisines}</p>
-                </div>
-                <div className="card-content">
-                  <p><b>Rating:</b><span>{restObject.restaurant.user_rating.aggregate_rating}</span> </p>
-                </div>
-                <div className="card-content">
-                  <p><b>Comments:</b></p>
-                  <p><i><span>	&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span></i></p>
-                </div>
-                <div className="card-action">
-                  <Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link>
-                </div>
-              </div>
-      
             )
       })
 
@@ -269,11 +264,7 @@ class RestaurantListNoRouter extends Component {
     const styles = { display: this.state.visible ? 'block' : 'none' }
     const restaurants = this.state.restsList.length > 0 ? this.mapRests(): this.mapErr();
     return <div style={styles}>
-        <Link 
-        onClick={this.props.history.goBack}
-        className="waves-effect waves-light btn red link-goback">
-          <span className="center-vertically">Back</span>
-          </Link>
+        <a href="http://localhost:3000/restaurants">Back</a>
       <h3>Rest List</h3>
         
       <div className="row">
@@ -281,9 +272,7 @@ class RestaurantListNoRouter extends Component {
         <div className="col s4">{this.sideBar()}</div>
         {/* col-8 */}
         <div className="col s8">
-          <div className="row teal lighten-4">
-          {restaurants}
-          </div>
+        {restaurants}
         </div>
       </div>
      
@@ -296,5 +285,5 @@ class RestaurantListNoRouter extends Component {
   }
 }
 
-export default RestaurantList
+export default Dummy
 
