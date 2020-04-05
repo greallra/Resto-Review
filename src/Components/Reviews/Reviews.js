@@ -103,14 +103,25 @@ class Reviews extends Component {
         return <div>no Results</div>
       }
       else {
-      return <ul className="collection">{this.state.rests.map((rest, i)=>{
-                  return  <li class="collection-item avatar" index={rest.restaurant.id}>
-                            <img src="images/yuna.jpg" alt="" class="circle"/>
-                            <span class="title">{rest.restaurant.name}</span>
-                            <img src={rest.restaurant.thumb} alt=""/>
-                            <ReviewDetails id={rest.restaurant.id}/>                            
-                          </li>
-          })}</ul>
+      return <div className="list-cont">{this.state.rests.map((rest, i)=>{
+            return  <div class="row" index={rest.restaurant.id}>
+                
+                      {/* If multiple of for add 
+                      row
+                        col 3      */}
+                        <div className="col s6 m12">
+                        <img src={rest.restaurant.thumb} alt="" className="thumb"/>
+                        </div>
+                        <div className="col s6 m12">
+                        <span class="title">{rest.restaurant.name}</span>
+                        </div>                                 
+                        {/* <ReviewDetails id={rest.restaurant.id}/> */}
+                        {/* If multiple of for add close tag
+                      row
+                        col 3   */}
+          
+                    </div>
+          })}</div>
       }
      
     }
@@ -163,7 +174,10 @@ class Reviews extends Component {
               
 
           {/* Results */}
-           {renderRests()}
+    
+            {renderRests()}
+     
+      
 
           {this.state.error ? <div>THERE IS AN ERROR</div>: <div></div>}
  

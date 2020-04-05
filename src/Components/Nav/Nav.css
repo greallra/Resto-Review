@@ -1,0 +1,13 @@
+.nav-cont {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #d64b3e;
+    color: blanchedalmond;
+}
+.desktop-items {
+    display: flex;
+}
+.right-side {
+    display: flex;
+}

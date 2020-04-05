@@ -7,11 +7,13 @@ import Reviews from './Components/Reviews/Reviews';
 import RestaurantList from './Components/RestaurantList/RestaurantList';
 import ReviewList from './Components/ReviewList/ReviewList';
 import MoreInfo from './Components/MoreInfo/MoreInfo';
+import Nav from './Components/Nav/Nav';
 
 function App() {
   return (
     <BrowserRouter>
     <div className="App">
+      <Nav></Nav>
       <Switch>
           <Route path="/restaurants" exact>
             <Restaurants />
