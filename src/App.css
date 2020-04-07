@@ -4,6 +4,9 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
+.App {
+  background: #fff;
+}
 .container{
   background-color: white;
   overflow: auto;

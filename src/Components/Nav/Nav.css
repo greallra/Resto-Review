@@ -1,13 +1,42 @@
 .nav-cont {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    /* padding: 10px; */
     background-color: #d64b3e;
     color: blanchedalmond;
 }
 .desktop-items {
     display: flex;
 }
+
+.desktop-items a {
+    display: block;
+    height: 100%;
+    color: blanchedalmond;
+    padding: 13px;
+}
+.desktop-items a:hover {
+    background-color: #d64b3e;
+    background-color: black;
+}
 .right-side {
     display: flex;
+    align-items: center;
+}
+.right-side i:nth-child(2){
+    padding: 13px 10px 13px;
+}
+.activePage {
+    background-color: black;
+}
+#title {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+}
+@media only screen and (min-width:700px) {
+    #title {
+        font-size: 18px;
+    }
 }

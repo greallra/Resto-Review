@@ -6768,8 +6768,8 @@ class RestaurantsNoRouter extends Component {
    
     return <div className="container">
               {this.state.restsListActive ? <RestaurantList restsList={this.state.restsList}></RestaurantList> : <div>
-              <div onClick={(e)=>{this.currentLocationSearch(e)}}><a className="btn link vertical-container"><span className="center-vertically">Find Restaurant In Your Current Location</span></a> </div> <br />
-                <div><a className="btn link vertical-container" onClick={(e)=>{this.customSearch(e)}}><span className="center-vertically">Search for Restaurants</span></a> 
+              <div onClick={(e)=>{this.currentLocationSearch(e)}}><a className="btn link red vertical-container"><span className="center-vertically">Find Restaurant In Your Current Location</span></a> </div> <br />
+                <div><a className="btn red link vertical-container" onClick={(e)=>{this.customSearch(e)}}><span className="center-vertically">Search for Restaurants</span></a> 
                   {this.state.searchDivActive ? 
                   <SearchDiv  
                     searchDivActive={this.state.searchDivActive} 
@@ -6790,7 +6790,7 @@ class RestaurantsNoRouter extends Component {
 
               <Link 
                 onClick={this.props.history.goBack}
-                className="waves-effect waves-light btn red link-goback">
+                className="waves-effect black waves-light btn red link-goback">
                   <span className="center-vertically">Back</span>
               </Link>
               

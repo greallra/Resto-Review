@@ -104,22 +104,13 @@ class Reviews extends Component {
       }
       else {
       return <div className="list-cont">{this.state.rests.map((rest, i)=>{
-            return  <div class="row" index={rest.restaurant.id}>
-                
-                      {/* If multiple of for add 
-                      row
-                        col 3      */}
-                        <div className="col s6 m12">
+            return  <div class="list-block" index={rest.restaurant.id}>
+                        <div className="list-item">
                         <img src={rest.restaurant.thumb} alt="" className="thumb"/>
                         </div>
-                        <div className="col s6 m12">
+                        <div className="list-item">
                         <span class="title">{rest.restaurant.name}</span>
-                        </div>                                 
-                        {/* <ReviewDetails id={rest.restaurant.id}/> */}
-                        {/* If multiple of for add close tag
-                      row
-                        col 3   */}
-          
+                        </div>                                    
                     </div>
           })}</div>
       }
