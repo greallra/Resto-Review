@@ -1,25 +1,58 @@
 .sideNav {
-    background-color: springgreen;
-    position: fixed;
+    background-color: #fff;
+    position: absolute;
     width: 0px;
     right:0;
     top: 0;
     height: 100%;
-    transition: width 1s;
+    transition: width 0.3s;
+
 }
-/*position:absolute; it can be fixed too
-width: 200px;
-          height: 600px;
-          background-color: blue;
-          z-index: -2;
-          position:absolute; it can be fixed too
-          left:0; right:0;
-          top:0; bottom:0;
-          margin:auto;
-          opacity: 0;
-          transition: opacity 1s;
-          this to solve "the content will not be cut when the window is smaller than the content": 
-          max-width:100%;
-          max-height:100%;
-          overflow:auto;
-*/
+.sideNavActive {
+    transition: width 0.3s;
+    width: 200px;
+}
+.close-cont {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.close-cont .close:hover, .close-cont i:hover{
+    color: red;
+    cursor: pointer;
+}
+.drop-down {
+    background-color: #e2e8f0;
+    max-height: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
+}
+.drop-down li {
+    padding: 9px;
+}
+.drop-down-open {
+    max-height: 500px;
+    transition: max-height 0.3s ease-in;
+}
+header {
+    display: flex;
+}
+header i {
+    margin-left: auto;
+}
+header i:hover {
+    cursor: pointer;
+}
+header a:hover {
+    background-color:black;
+    cursor: pointer;
+}
+
+.drop-down-lower div {
+    padding: 9px 0;
+}
+
+ul li {
+    color:black;
+}

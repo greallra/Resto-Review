@@ -1,20 +1,52 @@
 import React from 'react';
 import './SideNav.css';
-// class Reviews extends Component {
+import {  Link } from "react-router-dom";
+
 class SideNav extends React.Component {
-
-
-    handleNavToggle = ()=>{
-
+    state = {
+        dropDownOpen: false
     }
 
+    handleNavToggle = ()=>{
+        
+        this.props.changeSideNavState();
+    }
+    handleDropdown = ()=>{
+        this.setState({dropDownOpen: !this.state.dropDownOpen})
+    }
 
     render(){
         return <div 
-        onClick={this.handleNavToggle}
-        className="sideNav">
-            
-        
+        className={`sideNav ${this.props.sideNavActive ? 'sideNavActive':''}`}>
+            <div className="close-cont sideNavActive">
+                <div onClick={this.handleNavToggle} className="close">Close</div>
+                <i className="material-icons" onClick={this.handleNavToggle}>close</i>  
+            </div> 
+
+            <div>
+                <header onClick={this.handleDropdown}><a>See More</a><i className="material-icons" >arrow_drop_down</i></header>
+                <ul className={`drop-down ${this.state.dropDownOpen ? 'drop-down-open':''}`}>
+                   <li><Link to={'/restaurants'}>Restaurants</Link></li>
+                   <li><Link to={'/reviews'}>Reviews</Link></li>
+                </ul>
+            </div>
+
+            <div className="drop-down-lower">
+                <div><Link to={'/'} onClick={this.handleNavToggle}>Home</Link> </div>
+                <div><Link to={'/reviews'} onClick={this.handleNavToggle}>Reviews</Link> </div>
+                <div><Link to={'/restaurants'} onClick={this.handleNavToggle}>Restaurants</Link> </div>
+               
+            </div>
+
+            <div className="sideNavFooter">
+                <h5>Follow us on</h5>
+            <i className="material-icons">insta</i>
+            <i className="material-icons">insta</i>
+            <i className="material-icons">insta</i>
+            <i className="material-icons">insta</i>
+            </div>
+
+
         </div>
     }
 }

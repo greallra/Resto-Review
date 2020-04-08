@@ -13,17 +13,18 @@ import MyModal from './Components/MyModal/MyModal';
 
 class App extends React.Component {
   state ={
-    sideMenuActive: false
+    sideNavActive: true
   }
   changeSideNavState = ()=>{
-    this.setState({sideMenuActive: !this.state.sideMenuActive})
+    this.setState({sideNavActive: !this.state.sideNavActive})
   }
 
   render(){
     return (
       <BrowserRouter>
-      <div className="App">
-        <Nav sideMenuActive={this.sideMenuActive}></Nav>
+      <div className={`App ${this.state.sideNavActive ? 'hideApp':''} `}>
+        <Nav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}></Nav>
+        <div className={`${this.state.sideNavActive ? 'hideComponents':''}`}>
         <Switch>
             <Route path="/restaurants" exact>
               <Restaurants />
@@ -44,8 +45,9 @@ class App extends React.Component {
               <Home />
             </Route>
          </Switch>
-      </div>
-      <SideNav changeSideNavState={this.changeSideNavState} />
+         </div>
+    </div>
+      <SideNav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}/>
       {/* <MyModal /> */}
   
       </BrowserRouter>)

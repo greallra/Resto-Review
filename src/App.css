@@ -44,3 +44,15 @@ h3 {
   padding: 15px;
   line-height: 19px;
 }
+
+.hideApp {
+  background-color: rgba(0,0,0,0.5);
+  position: relative;
+ 
+}
+
+.hideComponents {
+  background-color: rgba(0,0,0,0.5);
+  position: relative;
+   z-index: -1;
+}

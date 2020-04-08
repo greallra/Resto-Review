@@ -13,8 +13,8 @@ export default class Nav extends Component {
   }
 
   handleSideNavToggle = ()=>{
-    alert()
-    // this.props.changeSideNavState()
+
+    this.props.changeSideNavState()
   }
   handleActivePage = (e)=>{
     let target =  e.target.innerHTML;
@@ -32,7 +32,7 @@ export default class Nav extends Component {
 
   render() {
       return (
-<div className="nav-cont">
+<div className={`nav-cont ${this.props.sideNavActive ? 'nav-cont-darken':''}`}>
     <div id="title">Resto Review</div>
 
     {this.state.windowSize.windowWidth > 600 ?
@@ -55,7 +55,7 @@ export default class Nav extends Component {
    
     <div className="right-side">
         <i class="material-icons">search</i>
-        {this.state.windowSize.windowWidth < 600 ? <i class="material-icons" onClick={this.handleSideNavToggle}>menu</i>: <i></i>}
+        {this.state.windowSize.windowWidth < 600 ? <i class="material-icons menu" onClick={this.handleSideNavToggle}>menu</i>: <i></i>}
     </div>
     <WindowSizeListener onResize={windowSize => {
       this.setState({windowSize})

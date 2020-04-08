@@ -5,6 +5,10 @@
     background-color: #d64b3e;
     color: blanchedalmond;
 }
+.nav-cont-darken {
+    position: relative;
+    z-index: -1;
+}
 .desktop-items {
     display: flex;
 }
@@ -35,6 +39,11 @@
     align-items: center;
     font-size: 10px;
 }
+.menu:hover {
+    cursor: pointer;
+    background-color: black;
+}
+
 @media only screen and (min-width:700px) {
     #title {
         font-size: 18px;
