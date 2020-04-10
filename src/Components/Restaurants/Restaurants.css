@@ -4,3 +4,28 @@
 .loading {
     text-align: center;
 }
+.button-cont {
+    display: flex;
+    justify-content: center;
+}
+.button-cont button {
+    width: 200px;
+}
+.location-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.location-cont .inout-field {
+    width: 55%;
+}
+.check2 {
+    /* width: 50px; */
+    background-color: green;
+    border-radius: 50%;
+    padding: 3px;
+    opacity: 0;
+}
+.check2active {
+    opacity: 1;
+}

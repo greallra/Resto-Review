@@ -2,15 +2,10 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import React, { Component } from 'react'
 import './MapContainer.css';
 
-const cont = {
-    position: 'relative',
-    width: '100%',
-    height: '200px',
-    border: "3px solid #fafafa"
-  };
-
 const mapStyles = {
-  width: "100%"
+  width: "180px",
+  height: "170px",
+  borderRadius: "10%"
 }
 class MapContainer extends Component {
     componentWillMount() {
@@ -34,10 +29,6 @@ class MapContainer extends Component {
           lng: this.props.long
         }
       } else {
-        // latLong = {
-        //   lat: this.getRandomInRange(-180, 180, 3),
-        //   lng: this.getRandomInRange(-180, 180, 3)
-        // }
         latLong = {
           lat: 41.9028,
           lng: 12.4964
@@ -48,8 +39,7 @@ class MapContainer extends Component {
       
        
         return (
-          <div style={cont}> <Map
-          className="test"
+          <Map
           google={this.props.google}
           zoom={15}
           style={mapStyles}
@@ -57,7 +47,7 @@ class MapContainer extends Component {
           >
           <Marker position={latLong} />
 
-          </Map></div>
+          </Map>
            
         );
   }

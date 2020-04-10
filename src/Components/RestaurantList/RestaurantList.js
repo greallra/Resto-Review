@@ -12,18 +12,8 @@ class RestaurantListNoRouter extends Component {
     cuisineOption: "",
     diningOption: "",
     diningRating: 0,
-    listToRender: []
+    filteredList: []
   }
-
- componentDidMount(){
-   console.log(this.state.restsList);
-   
-   this.setState({
-    restsList: this.props.restsList
-   },()=>{
-     this.setState({listToRender: this.props.restsList})
-   });
- }
 
  handleClickedCuisine = (e)=>{
      let choice = e.target.value;
@@ -120,48 +110,75 @@ class RestaurantListNoRouter extends Component {
      
      console.log(filtered);
      
-     this.setState({listToRender: filtered}, ()=>{this.mapRests()})
+     this.setState({filteredList: filtered}, ()=>{this.mapRests()})
  }
 
  mapRests = ()=>{
- 
-  //data structure of restList is results_found.restaurants array
-   return this.state.listToRender.map((restObject, index)=>{
-     return (   
-              <div className={`card col s12 m6 l4`} key={index}>
-                <div className="card-image">
-                  <img src={restObject.restaurant.thumb}  alt=""/>
-                  <span className="card-title">{restObject.restaurant.name}</span>
-                </div>
-                <div className="card-content">      
-                  <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
-                </div>
-                <div className="card-content">
-                  <p className="address"><b>Address:</b>{restObject.restaurant.location.address}</p>
-                </div>
-                <div className="card-content">
-                  <p className="food-type"><b>Food Type:</b>{restObject.restaurant.cuisines}</p>
-                </div>
-                <div className="card-content">
-                  <p><b>Rating:</b><span>{restObject.restaurant.user_rating.aggregate_rating}</span> </p>
-                </div>
-                <div className="card-content">
-                  <p><b>Comments:</b></p>
-                  <p><i><span>	&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span></i></p>
-                </div>
-                <div className="card-action">
-                  <Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link>
-                </div>
-              </div>
-      
-            )
+    if(this.state.filteredList.length > 0) {
+      return <div>filtered list</div>
+      //render filtered list here
+        // return this.state.filteredList.map((restObject, index)=>{
+        //   return ( 
+        //            <div className={`card-cont`} key={index}>
+        //               <div className="img-wrapper">
+        //                  <img src={restObject.restaurant.thumb}  alt=""/>
+        //                </div>
+        //                <div className="rest-name">
+        //                  <span className="name">{restObject.restaurant.name}</span> 
+        //                  <span><b className="food-type-title">Food Type:</b><span className="food-type-content"> {restObject.restaurant.cuisines}</span></span>
+        //                  <span><b className="rating">Rating:</b><span className="rating-value">{restObject.restaurant.user_rating.aggregate_rating}</span> </span>
+        //                </div>
+        //                <div className="map-wrapper">
+        //                  <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
+                      
+                        
+        //                </div>
+        //                <div className="commentsRating-wrapper">
+            
+        //                  <span><span className="comments"> Comments:</span></span>
+        //                  <span>&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span>
+        //                  <span className="more-info"><Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link></span>
+        //                  <span className="address"><span className="address-title">Address:</span> <span className="address-value">{restObject.restaurant.location.address}</span> </span> 
+        //                </div> 
+        //            </div>
+                  
+        //          )
+        //    })
+    }
+    else if(this.props.restsList.length === 0) {
+        return <div>no restaurants found</div>
+    }
+    else {
+      return this.props.restsList.map((restObject, index)=>{
+           return(<div className={`card-cont`} key={index}>
+                      <div className="img-wrapper">
+                         <img src={restObject.restaurant.thumb}  alt=""/>
+                       </div>
+                       <div className="rest-name">
+                         <span className="name">{restObject.restaurant.name}</span> 
+                         <span><b className="food-type-title">Food Type:</b><span className="food-type-content"> {restObject.restaurant.cuisines}</span></span>
+                         <span><b className="rating">Rating:</b><span className="rating-value">{restObject.restaurant.user_rating.aggregate_rating}</span> </span>
+                       </div>
+                       <div className="map-wrapper">
+                         <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
+                      
+                        
+                       </div>
+                       <div className="commentsRating-wrapper">
+            
+                         <span><span className="comments"> Comments:</span></span>
+                         <span>&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span>
+                         <span className="more-info"><Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link></span>
+                         <span className="address"><span className="address-title">Address:</span> <span className="address-value">{restObject.restaurant.location.address}</span> </span> 
+                       </div> 
+                   </div>)
       })
+    }
 
-     
  }
  mapErr = ()=>{
 
-   return  <div>no</div>
+   return  <div>no restaurants found</div>
  }
 
  sideBar = ()=>{
@@ -267,31 +284,18 @@ class RestaurantListNoRouter extends Component {
   render() {
    
     const styles = { display: this.state.visible ? 'block' : 'none' }
-    const restaurants = this.state.restsList.length > 0 ? this.mapRests(): this.mapErr();
+    const restaurants = this.props.restsList.length > 0 ? this.mapRests(): this.mapErr();
     return <div style={styles}>
         <Link 
         onClick={this.props.history.goBack}
-        className="waves-effect waves-light btn red link-goback">
+        className="waves-effect waves-light btn black link-goback">
           <span className="center-vertically">Back</span>
           </Link>
-      <h3>Rest List</h3>
-        
-      <div className="row">
-        {/* sideBar  col-4 */}
-        <div className="col s4">{this.sideBar()}</div>
-        {/* col-8 */}
-        <div className="col s8">
-          <div className="row teal lighten-4">
+ 
+      {/* {this.sideBar()} */}
+          <div className="rests-wrapper">
           {restaurants}
           </div>
-        </div>
-      </div>
-     
-
-    
-  
-    
-    
     </div>
   }
 }

@@ -6,7 +6,7 @@ import './Restaurants.css';
 // import Dummy from './dummy'
 import SearchDiv from  './SearchDiv';
 
-const data = {
+let data = {
   "restsList": [
     {
       "restaurant": {
@@ -6607,7 +6607,6 @@ const data = {
     }
   ]
 }
-console.log("data",data)
 
 const Restaurants = withRouter(props => <RestaurantsNoRouter  {...props}/>);
 class RestaurantsNoRouter extends Component {
@@ -6616,6 +6615,7 @@ class RestaurantsNoRouter extends Component {
     searchDivActive: false,
     searchButtonActive: false,
     locationSearchActive: false,
+    loactionVerified: false,
     loading: false,
     error: false,
     errorMessage: "",
@@ -6624,16 +6624,17 @@ class RestaurantsNoRouter extends Component {
     cityName: null,
     entity_id: null, 
     countryName: null,
-    restsListActive: false,
     restsFound: 0,
     restsList: [],
     inputLocation: "",
   }
-
-
-  currentLocationSearch =(e)=>{
-    //set loading state
-    //get browser location and set lat,long
+  componentDidMount() {
+    console.log("test");
+    this.defaultRestaurantsBrowserLocation();
+  }
+  defaultRestaurantsBrowserLocation =(e)=>{
+    
+    
     this.setState({loading: true});
       const geolocation = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
@@ -6646,24 +6647,25 @@ class RestaurantsNoRouter extends Component {
                   lat: res.latitude,
                   long: res.longitude
             },()=>{
-              this.listRestaurantInGivenLocation();        
+              this.renderRestaurants();        
             });
       })
       .catch((error)=>{
           alert(error);
           this.setState({error: true, loading: false});
       });
-      //Get restaurants in this area
-        //set loading state
+ 
       this.setState({loading: true});
   }
 
-  searchRestaurants = (location)=>{
+  getLocation = ()=>{
+    //set loading
+    this.setState({loading: true})
     // Next Api Searc: Restaurants
     let url;
-    // location = "Dublin"
+    let location = this.state.inputLocation
     url = `https://developers.zomato.com/api/v2.1/locations?query=${location}&user-key=f7a5b883bef34e0148437a909b393a96`;
-    console.log(url);
+    
     fetch(url, {
       method: "GET",
       headers: {
@@ -6680,7 +6682,6 @@ class RestaurantsNoRouter extends Component {
       }
     })
     .then((res)=>{
-      console.log("res", res);
       //Check which results set we got: /locations ir /searc
       if(res.location_suggestions){
         this.setState({
@@ -6689,25 +6690,22 @@ class RestaurantsNoRouter extends Component {
           long: res.location_suggestions[0].longitude, 
           cityName:   res.location_suggestions[0].city_name,
           countryName: res.location_suggestions[0].country_name,
-          loading: false
-        }, ()=>{this.listRestaurantInGivenLocation();});
+          loading: false,
+          loactionVerified: true
+        }, ()=>{
+          
+          this.renderRestaurants();
+        
+        });
       }
     })
     .catch((err)=>{
-      console.log(err); 
       this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
       alert("catch err 1")
     })
   }
 
-  //search rests using gps coords
-  //set state with results
-  //activate reslist
-
-  // practise
-  //set another component with dumy data (done above)
-  //send this to a dummy component identical to Restaurant List
-  listRestaurantInGivenLocation = ()=>{
+  renderRestaurants = ()=>{
     const url = `https://developers.zomato.com/api/v2.1/search?lat=${this.state.lat}&lon=${this.state.long}`;
 
     fetch(url, {
@@ -6720,13 +6718,12 @@ class RestaurantsNoRouter extends Component {
     .then((res)=>{
       if(res.status !== 200) {
           this.setState({error: true, errorMessage: res.status, loading: false});
-          alert("error in then : status listRestaurantInGivenLocation")
+          alert("error in then : status renderRestaurants")
       } else {
           return res.json();
       }
     })
     .then((res)=>{
-      console.log("res", res);
       //Check which results set we got: /locations ir /searc
       if(res.results_found){
         this.setState({
@@ -6739,26 +6736,22 @@ class RestaurantsNoRouter extends Component {
       }
     })
     .catch((err)=>{
-      console.log(err); 
       this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
       alert("catch err 1")
     })
   }
 
-  customSearch =(perform)=>{
-      this.setState({searchDivActive: true}); 
-      if(perform === "perform"){
-        this.searchRestaurants(this.state.inputLocation);
-      }
-  }
+  // customSearch =(perform)=>{
+  //     this.setState({searchDivActive: true}); 
+  //     if(perform === "perform"){
+  //       this.getLocation(this.state.inputLocation);
+  //     }
+  // }
   cancelSearch =()=>{
       this.setState({searchDivActive: false, inputLocation: "", searchButtonActive: false}); 
   }
   handleLocationInput = (e)=>{
     this.setState({inputLocation: e.target.value, searchButtonActive: true});
-  }
-  activateRestaurantList = ()=>{
-    this.setState({restsListActive: true})
   }
 
   render() {
@@ -6766,32 +6759,30 @@ class RestaurantsNoRouter extends Component {
     const loading = { display: this.state.loading ? 'block' : 'none' }
     const error = { display: this.state.error ? 'block' : 'none' }
    
-    return <div className="container">
-              {this.state.restsListActive ? <RestaurantList restsList={this.state.restsList}></RestaurantList> : <div>
-              <div onClick={(e)=>{this.currentLocationSearch(e)}}><a className="btn link red vertical-container"><span className="center-vertically">Find Restaurant In Your Current Location</span></a> </div> <br />
-                <div><a className="btn red link vertical-container" onClick={(e)=>{this.customSearch(e)}}><span className="center-vertically">Search for Restaurants</span></a> 
-                  {this.state.searchDivActive ? 
-                  <SearchDiv  
-                    searchDivActive={this.state.searchDivActive} 
-                    searchButtonActive={this.state.searchButtonActive}
-                    inputLocation={this.state.inputLocation}
-                    handleLocationInput={this.handleLocationInput}
-                    cancelSearch={this.cancelSearch}
-                    customSearch={this.customSearch}
-                    locationSearchActive={this.state.locationSearchActive}
-                    city={this.state.city}
-                    countryName={this.state.countryName}
-                    activateRestaurantList={this.activateRestaurantList}
-                    customSearch={this.customSearch}
-                    />: 
-                  <div></div>}
-                </div>
-              </div>}
+    return <div className="">
+            <div class="row"><div class="col s12"><h2>Search for Restaurants</h2> </div></div>
+            <div class="row">
+              <div className="location-cont">
+                    <div class="input-field">
+                      <i class="material-icons prefix pencil">mode_edit</i>
+                      <input type="text" name="location" id="searchTextField" size="50" placeholder="Enter a location" autocomplete="off" 
+                      onChange={(e)=>{this.handleLocationInput(e)}}/>        
+                    </div>
+                    <i class={`material-icons check2 ${this.state.loactionVerified ? 'check2active':''}`}>check</i>
+              </div>
+
+            </div>
+            {/* Search Button */}
+            <div className="button-cont">
+              <button className="btn" onClick={this.getLocation}>Search Restaurants</button>
+            </div>
+
+            <RestaurantList restsList={this.state.restsList}/>
 
               <Link 
                 onClick={this.props.history.goBack}
-                className="waves-effect black waves-light btn red link-goback">
-                  <span className="center-vertically">Back</span>
+                className="waves-effect black waves-light btn red">
+                  <span className="">Back</span>
               </Link>
               
               {/* Loading */}

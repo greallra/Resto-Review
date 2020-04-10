@@ -23,7 +23,7 @@ class SideNav extends React.Component {
                 <i className="material-icons" onClick={this.handleNavToggle}>close</i>  
             </div> 
 
-            <div>
+            <div className="header-cont">
                 <header onClick={this.handleDropdown}><a>See More</a><i className="material-icons" >arrow_drop_down</i></header>
                 <ul className={`drop-down ${this.state.dropDownOpen ? 'drop-down-open':''}`}>
                    <li><Link to={'/restaurants'}>Restaurants</Link></li>
@@ -40,14 +40,12 @@ class SideNav extends React.Component {
 
             <div className="sideNavFooter">
                 <h5>Follow us on</h5>
-            <i className="material-icons">insta</i>
-            <i className="material-icons">insta</i>
-            <i className="material-icons">insta</i>
-            <i className="material-icons">insta</i>
+                <i className="material-icons">menu</i>
+                <i className="material-icons">menu</i>
+                <i className="material-icons">menu</i>
+                <i className="material-icons">menu</i>
             </div>
-
-
-        </div>
+    </div>
     }
 }
 export default SideNav;

@@ -13,7 +13,7 @@ import MyModal from './Components/MyModal/MyModal';
 
 class App extends React.Component {
   state ={
-    sideNavActive: true
+    sideNavActive: false
   }
   changeSideNavState = ()=>{
     this.setState({sideNavActive: !this.state.sideNavActive})
