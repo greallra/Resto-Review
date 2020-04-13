@@ -5,6 +5,12 @@
     background: green;
     border-radius: 50%;
     margin-top: 29px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+.checked {
+    opacity: 1;
+    transition: opacity 1s;
 }
 h2 {
     font-size: 5.5vw;

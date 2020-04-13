@@ -150,7 +150,7 @@ class RestaurantListNoRouter extends Component {
     }
     else {
       return this.props.restsList.map((restObject, index)=>{
-           return(<div className={`card-cont`} key={index}>
+           return(<div className={`my-card-cont`} key={index}>
                       <div className="img-wrapper">
                          <img src={restObject.restaurant.thumb}  alt=""/>
                        </div>
@@ -160,12 +160,9 @@ class RestaurantListNoRouter extends Component {
                          <span><b className="rating">Rating:</b><span className="rating-value">{restObject.restaurant.user_rating.aggregate_rating}</span> </span>
                        </div>
                        <div className="map-wrapper">
-                         <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
-                      
-                        
+                         <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>  
                        </div>
-                       <div className="commentsRating-wrapper">
-            
+                       <div className="commentsRating-wrapper">  
                          <span><span className="comments"> Comments:</span></span>
                          <span>&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span>
                          <span className="more-info"><Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link></span>
@@ -293,9 +290,9 @@ class RestaurantListNoRouter extends Component {
           </Link>
  
       {/* {this.sideBar()} */}
-          <div className="rests-wrapper">
+      <div className="rests-wrapper">
           {restaurants}
-          </div>
+      </div>
     </div>
   }
 }

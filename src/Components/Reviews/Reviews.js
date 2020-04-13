@@ -33,13 +33,8 @@ class Reviews extends Component {
           console.log("autoCompleteObject", autoCompleteObject);
           const newSearchValue=autoCompleteObject.gm_accessors_.place.ue.formattedPrediction
          
-          //do error check
-          if(!newSearchValue) {
-              alert("error in autocomplete listener")
-          }
-          else {
-              this.setState({locationText: newSearchValue},()=>{})
-          }
+         
+          this.setState({locationText: newSearchValue},()=>{})
       })
   }
 
@@ -59,8 +54,9 @@ class Reviews extends Component {
       this.setState({
         lat: res.location_suggestions[0].latitude,
         long: res.location_suggestions[0].longitude,
-        locationVerified: true
-      },()=>{});
+        locationVerified: true,
+        loading: true
+      },()=>{this.getRests()});
     })
     .catch(()=>{
       this.setState({error: true})
@@ -68,7 +64,7 @@ class Reviews extends Component {
   }
   
   getRests = ()=>{
-    this.setState({loading: true})
+    
     const url2 = `https://developers.zomato.com/api/v2.1/search?lat=${this.state.lat}&lon=${this.state.long}`
     fetch(url2, {
       method: "GET",
@@ -79,6 +75,7 @@ class Reviews extends Component {
         })
       .then(res => res.json())
       .then((res)=>{
+        console.log(res);
         this.setState({
           rests: res.restaurants
         });
@@ -90,10 +87,10 @@ class Reviews extends Component {
       })
   }
   stopLoading = ()=>{
-    this.setState({loading: false})
+    this.setState({loading: false, locationVerified: false})
   }
   handleLocationText = (e)=>{
-    this.setState({locationText: e.target.value})
+    this.setState({locationText: e.target.value, locationVerified: false})
   }
   
   render() {
@@ -106,7 +103,7 @@ class Reviews extends Component {
       return <div className="list-cont">{this.state.rests.map((rest, i)=>{
             return  <div class="list-block" index={rest.restaurant.id}>
                         <div className="list-item">
-                        <img src={rest.restaurant.thumb} alt="" className="thumb"/>
+                        <img src={rest.restaurant.thumb.length > 0 ? rest.restaurant.thumb: 'https://via.placeholder.com/150'} alt="" className="thumb"/>
                         </div>
                         <div className="list-item">
                         <span class="title">{rest.restaurant.name}</span>
@@ -143,11 +140,11 @@ class Reviews extends Component {
                               </div>
                               {this.state.locationText.length > 0 && !this.state.locationVerified ?
                               <button onClick={this.handleCheckLocation} type="button" className="btn waves-effect waves-light btn-small red">Check Location</button>:
-                              <span></span>}
-                              {this.state.locationVerified ? <button type="button" className="btn waves-effect waves-light btn-small red" onClick={this.getRests}>Display Reviews</button>:<span></span>}
+                              <div style={{height: '36px'}}></div>}
+                              {this.state.locationVerified ? <h2 className="">Displaying Reviews </h2> : <div></div>}
                             </div>
                             <div className="col s2">
-                              {this.state.locationVerified ? <i class="material-icons check">check</i>:<div></div>}
+                              <i class={`material-icons check ${this.state.locationVerified ? 'checked':''}`}>check</i>
                             </div>
 
 

@@ -3,17 +3,18 @@ import React, { Component } from 'react'
 import './MapContainer.css';
 
 const mapStyles = {
-  width: "180px",
-  height: "170px",
-  borderRadius: "10%"
+  width: '100%',
+  height: '100%',
+  borderRadius: '10%'
+
 }
 class MapContainer extends Component {
     componentWillMount() {
       let url = window.location.href
-      console.log("url", url);   
+  
     }
     componentDidMount() {
-      console.log("this.props.lat", this.props.lat)
+    
     }
   getRandomInRange = (from, to, fixed)=> {
       return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
@@ -35,9 +36,6 @@ class MapContainer extends Component {
         }
       }
       
-      console.log("latLong", latLong);
-      
-       
         return (
           <Map
           google={this.props.google}

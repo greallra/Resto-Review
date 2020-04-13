@@ -7,8 +7,12 @@
     height: 100%;
     transition: width 0.3s;
     font-size: 17px;
+    overflow: hidden;
 }
+
+
 .sideNavActive {
+    z-index: 1;
     transition: width 0.3s;
     width: 200px;
 }

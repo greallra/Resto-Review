@@ -22,9 +22,10 @@ class App extends React.Component {
   render(){
     return (
       <BrowserRouter>
-      <div className={`App ${this.state.sideNavActive ? 'hideApp':''} `}>
+       
+       
         <Nav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}></Nav>
-        <div className={`${this.state.sideNavActive ? 'hideComponents':''}`}>
+        <div className={`App ${this.state.sideNavActive ? 'overlayActive':''} `}>
         <Switch>
             <Route path="/restaurants" exact>
               <Restaurants />
@@ -45,8 +46,8 @@ class App extends React.Component {
               <Home />
             </Route>
          </Switch>
-         </div>
-    </div>
+      </div>
+      <div className={`${this.state.sideNavActive ? 'overlay':''}`}></div>
       <SideNav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}/>
       {/* <MyModal /> */}
   
