@@ -1,8 +1,21 @@
-.slider-img {
-    width: 100px;
-    height: 100px;
+.img-wrapper {
+    /* height: 200px;
+    width: 100px; */
 }
-
+.slider-img {
+    height: 200px;
+    
+}
+.card {
+    background-color: rgba(214, 75, 62,0.1);
+}
 .checked {
     color: orange;
   }
+
+.shtyle {
+    position: relative;
+    height: 263px;
+    width: 340px;
+    margin: auto;
+}

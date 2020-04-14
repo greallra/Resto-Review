@@ -6621,9 +6621,9 @@ class RestaurantsNoRouter extends Component {
     errorMessage: "",
     lat: null,
     long: null,
-    cityName: null,
+    cityName: "Dublin, Ireland",
     entity_id: null, 
-    countryName: null,
+    countryName: "",
     restsFound: 0,
     restsList: [],
     inputLocation: "",
@@ -6633,8 +6633,7 @@ class RestaurantsNoRouter extends Component {
     this.defaultRestaurantsBrowserLocation();
   }
   defaultRestaurantsBrowserLocation =(e)=>{
-    
-    
+
     this.setState({loading: true});
       const geolocation = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
@@ -6716,6 +6715,7 @@ class RestaurantsNoRouter extends Component {
       }
     })
     .then((res)=>{
+
       if(res.status !== 200) {
           this.setState({error: true, errorMessage: res.status, loading: false});
           alert("error in then : status renderRestaurants")
@@ -6741,17 +6741,11 @@ class RestaurantsNoRouter extends Component {
     })
   }
 
-  // customSearch =(perform)=>{
-  //     this.setState({searchDivActive: true}); 
-  //     if(perform === "perform"){
-  //       this.getLocation(this.state.inputLocation);
-  //     }
-  // }
   cancelSearch =()=>{
       this.setState({searchDivActive: false, inputLocation: "", searchButtonActive: false}); 
   }
   handleLocationInput = (e)=>{
-    this.setState({inputLocation: e.target.value, searchButtonActive: true});
+    this.setState({inputLocation: e.target.value, searchButtonActive: true, loactionVerified: false});
   }
 
   render() {
@@ -6774,19 +6768,13 @@ class RestaurantsNoRouter extends Component {
             </div>
             {/* Search Button */}
             <div className="button-cont">
-              <button className="btn" onClick={this.getLocation}>Search Restaurants</button>
+              <button className="btn" onClick={this.getLocation}>SSearch Restaurants</button>
             </div>
 
-            <RestaurantList restsList={this.state.restsList}/>
-
-              <Link 
-                onClick={this.props.history.goBack}
-                className="waves-effect black waves-light btn red">
-                  <span className="">Back</span>
-              </Link>
-              
-              {/* Loading */}
-              <div style={loading} className="loading">
+            {/* Padding */}
+              <div style={{height: '20px'}}></div>
+             {/* Loading */}
+             <div style={loading} className="loading">
                 <div class="preloader-wrapper small active">
                   <div class="spinner-layer spinner-green-only">
                     <div class="circle-clipper left">
@@ -6799,6 +6787,16 @@ class RestaurantsNoRouter extends Component {
                   </div>
                 </div>
               </div>
+
+            <RestaurantList restsList={this.state.restsList} city={this.state.cityName}/>
+
+              {/* <Link 
+                onClick={this.props.history.goBack}
+                className="waves-effect black waves-light btn red">
+                  <span className="">Back</span>
+              </Link> */}
+              
+             
 
               <div style={error}></div>
               {/* Dummy Component */}

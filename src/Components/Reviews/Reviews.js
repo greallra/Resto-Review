@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import ReviewDetails from './ReviewDetails';
+import ReviewDetail from './ReviewDetail';
+import {Link }from "react-router-dom";
 import data from './data';
 const scrp = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=Paris&key=AIzaSyCnqBDH_kR_tvH3FyRekQ5exthVZ6MOSQk";
 
@@ -17,7 +18,7 @@ class Reviews extends Component {
   }
   componentDidMount() {
    //set state with dummy data for now
-   this.setState({rests: data})
+   this.setState({rests: data, city: data[0].restaurant.location.address})
   
 
       //clear input
@@ -51,11 +52,14 @@ class Reviews extends Component {
       })
     .then(res => res.json())
     .then((res)=>{
+      console.log("oye", res);
+      
       this.setState({
         lat: res.location_suggestions[0].latitude,
         long: res.location_suggestions[0].longitude,
         locationVerified: true,
-        loading: true
+        loading: true,
+        city: res.location_suggestions[0].title
       },()=>{this.getRests()});
     })
     .catch(()=>{
@@ -106,7 +110,8 @@ class Reviews extends Component {
                         <img src={rest.restaurant.thumb.length > 0 ? rest.restaurant.thumb: 'https://via.placeholder.com/150'} alt="" className="thumb"/>
                         </div>
                         <div className="list-item">
-                        <span class="title">{rest.restaurant.name}</span>
+                        <div class="title">{rest.restaurant.name}</div>
+                        <div className="see-reviews"><Link to={`/reviews/${rest.restaurant.id}`}>See Reiews</Link></div>
                         </div>                                    
                     </div>
           })}</div>
@@ -141,7 +146,7 @@ class Reviews extends Component {
                               {this.state.locationText.length > 0 && !this.state.locationVerified ?
                               <button onClick={this.handleCheckLocation} type="button" className="btn waves-effect waves-light btn-small red">Check Location</button>:
                               <div style={{height: '36px'}}></div>}
-                              {this.state.locationVerified ? <h2 className="">Displaying Reviews </h2> : <div></div>}
+                              {this.state.locationVerified ? <h2 className="">Displaying Reviews...</h2> : <div>Displaying Reviews in {this.state.city}</div>}
                             </div>
                             <div className="col s2">
                               <i class={`material-icons check ${this.state.locationVerified ? 'checked':''}`}>check</i>

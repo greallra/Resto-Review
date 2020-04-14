@@ -5,7 +5,7 @@ import Home from './Components/Home/Home';
 import Restaurants from './Components/Restaurants/Restaurants';
 import Reviews from './Components/Reviews/Reviews';
 import RestaurantList from './Components/RestaurantList/RestaurantList';
-import ReviewList from './Components/ReviewList/ReviewList';
+import ReviewDetail from './Components/Reviews/ReviewDetail';
 import MoreInfo from './Components/MoreInfo/MoreInfo';
 import Nav from './Components/Nav/Nav';
 import SideNav from './Components/SideNav/SideNav';
@@ -33,14 +33,14 @@ class App extends React.Component {
             <Route path="/restaurants/:dynamic">
               <MoreInfo />
             </Route>
-            <Route path="/reviews">
-              <Reviews />
-            </Route>
             <Route path="/restaurants-list" exact>
               <RestaurantList />
             </Route>
-            <Route path="/reviews-list">
-              <ReviewList />
+            <Route path="/reviews" exact>
+              <Reviews />
+            </Route>
+            <Route path="/reviews/:dynamo">
+              <ReviewDetail />
             </Route>
             <Route path="/">
               <Home />

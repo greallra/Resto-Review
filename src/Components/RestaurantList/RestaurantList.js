@@ -146,7 +146,7 @@ class RestaurantListNoRouter extends Component {
         //    })
     }
     else if(this.props.restsList.length === 0) {
-        return <div>no restaurants found</div>
+        return <div>loading</div>
     }
     else {
       return this.props.restsList.map((restObject, index)=>{
@@ -173,9 +173,9 @@ class RestaurantListNoRouter extends Component {
     }
 
  }
- mapErr = ()=>{
+ mapLoading = ()=>{
 
-   return  <div>no restaurants found</div>
+   return  <div></div>
  }
 
  sideBar = ()=>{
@@ -281,15 +281,16 @@ class RestaurantListNoRouter extends Component {
   render() {
    
     const styles = { display: this.state.visible ? 'block' : 'none' }
-    const restaurants = this.props.restsList.length > 0 ? this.mapRests(): this.mapErr();
+    const restaurants = this.props.restsList.length > 0 ? this.mapRests(): this.mapLoading();
     return <div style={styles}>
-        <Link 
+        {/* <Link 
         onClick={this.props.history.goBack}
         className="waves-effect waves-light btn black link-goback">
           <span className="center-vertically">Back</span>
-          </Link>
+          </Link> */}
  
       {/* {this.sideBar()} */}
+      <div style={{opacity: '0.5'}}>Displaying Restaurants in {this.props.city}</div>
       <div className="rests-wrapper">
           {restaurants}
       </div>

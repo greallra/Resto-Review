@@ -29,27 +29,7 @@ class ReviewDetails extends Component {
     }
 
     render() {
-        return <div>  
-    <Collapsible accordion>
-  <CollapsibleItem
-    expanded={false}
-    header="See Reviews"
-    icon={<Icon>filter_drama</Icon>}
-    node="div"
-  >
-    <p>Total Reviews: {this.state.totalReviews}</p>
-    <h3>Comments</h3>
-    {!this.state.userReviews.length > 0 ? <div></div>:
-            <div>{this.state.userReviews.map((obj)=>{
-                return <p className="comment-p">{obj.review.review_text}</p>
-            })}
-            </div>
-    }
-    <p></p>
-  </CollapsibleItem>
-
-</Collapsible>
-</div>
+        return <div>detail</div>
     }
 
 }

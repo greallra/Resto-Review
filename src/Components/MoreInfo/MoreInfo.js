@@ -153,14 +153,15 @@ class MoreInfoChild extends Component {
 
  updateSlidesToShow = ()=>{
    //small scree
-   if(this.state.width < 800) {
-      return 3;
+   if(this.state.width < 700) {
+      return 1;
    }
    else {
-     return 4;
+     return 3;
    }
    
  }
+
 
   render() {
     const photos =this.state.resPhotos;
@@ -171,10 +172,7 @@ class MoreInfoChild extends Component {
       slidesToShow: this.updateSlidesToShow(),
       slidesToScroll: 1
     };
-    const mapStyles = {
-      width: '100%',
-      height: '100%',
-    };
+
     const rating = this.getRatingHtml()
 
     return <div className="container">
@@ -184,30 +182,32 @@ class MoreInfoChild extends Component {
       <div className="container">
         <div className="row">
           {/* Dummy Div */}
-          <div className="col s0 m2"></div>
-          <div className="col s12 m8 center-align">
-                <div className="card blue-grey darken-1">
-                  <div className="card-content white-text">
-                    <span className="card-title">{this.state.resName}</span>
+          {/* <div className="col s0 m2"></div> */}
+          <div className="col s12 center-align">
+                <div className="card">
+                  <div className="card-content black-text">
+                    <span className="card-title black-text">{this.state.resName}</span>
                     <p>{this.state.location}</p>
-                    <div>  <MapContainer
+                    <div className="shtyle">  
+                      <MapContainer
+                       
                         lat={this.state.lat}
                         long={this.state.long}
                             />
                     </div>
                   
                   </div>
-                  <div className="card-action">
+                  <div className="card-action" >
                     <Slider {...settings}>
                       {photos.map((photoObj,i)=>{
-                        return <div key={i}>
-                          
-                          <img className="slider-img" src={photoObj.photo.url} alt=""/></div>
+                        return <div key={i} className="img-wrapper">
+                          <img className="slider-img" src={photoObj.photo.url} alt=""/>
+                          </div>
                       })}
                     </Slider>
                     
                   </div>
-                  <div className="card-action">
+                  <div className="card-action" style={{padding: '0', border: 'none'}}>
                       <ul className="collection with-header left-align">
                         <li className="collection-header"><h4>{this.state.resName}</h4></li>
                         <li className="collection-item">
@@ -222,7 +222,7 @@ class MoreInfoChild extends Component {
                 </div>
             </div>
           {/* Dummy Div */}
-          <div className="col s0 m2"></div>
+          {/* <div className="col s0 m2"></div> */}
         </div>
         <Link 
         onClick={this.props.history.goBack}
