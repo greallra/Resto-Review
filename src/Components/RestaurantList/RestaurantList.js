@@ -290,7 +290,7 @@ class RestaurantListNoRouter extends Component {
           </Link> */}
  
       {/* {this.sideBar()} */}
-      <div style={{opacity: '0.5'}}>Displaying Restaurants in {this.props.city}</div>
+      <div className="loading-text">Displaying Restaurants in {this.props.city}</div>
       <div className="rests-wrapper">
           {restaurants}
       </div>

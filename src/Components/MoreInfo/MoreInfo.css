@@ -3,16 +3,22 @@
     width: 100px; */
 }
 .slider-img {
-    height: 200px;
-    
+    width: 100%;
+    height: auto;
+ 
 }
 .card {
-    background-color: rgba(214, 75, 62,0.1);
+    /* background-color: #f6f6f6; */
 }
 .checked {
     color: orange;
   }
 
+.img-cont {
+    max-height: 300px;
+    overflow: hidden;
+    border-radius: 4%;
+}
 .shtyle {
     position: relative;
     height: 263px;

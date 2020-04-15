@@ -140,9 +140,6 @@ class MoreInfoChild extends Component {
           arrayOfSpans.push( <span className="fa fa-star"  key={i}></span>)
         }
       }
-      console.log(divi);
-      
-     
      return arrayOfSpans
    }
    else {
@@ -151,43 +148,22 @@ class MoreInfoChild extends Component {
 
  }
 
- updateSlidesToShow = ()=>{
-   //small scree
-   if(this.state.width < 700) {
-      return 1;
-   }
-   else {
-     return 3;
-   }
-   
- }
-
-
   render() {
     const photos =this.state.resPhotos;
-    var settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: this.updateSlidesToShow(),
-      slidesToScroll: 1
-    };
 
     const rating = this.getRatingHtml()
 
     return <div className="container">
-            
-        
       {photos.length === 0 ? <div></div>:
       <div className="container">
         <div className="row">
           {/* Dummy Div */}
           {/* <div className="col s0 m2"></div> */}
           <div className="col s12 center-align">
-                <div className="card">
-                  <div className="card-content black-text">
-                    <span className="card-title black-text">{this.state.resName}</span>
+
+                    <h4>{this.state.resName}</h4>
                     <p>{this.state.location}</p>
+                    <div className="img-cont"><img className="slider-img" src={this.state.resPhotos[Math.floor(Math.random() * 10)].photo.url} alt=""/></div>
                     <div className="shtyle">  
                       <MapContainer
                        
@@ -195,31 +171,15 @@ class MoreInfoChild extends Component {
                         long={this.state.long}
                             />
                     </div>
-                  
-                  </div>
-                  <div className="card-action" >
-                    <Slider {...settings}>
-                      {photos.map((photoObj,i)=>{
-                        return <div key={i} className="img-wrapper">
-                          <img className="slider-img" src={photoObj.photo.url} alt=""/>
-                          </div>
-                      })}
-                    </Slider>
-                    
-                  </div>
-                  <div className="card-action" style={{padding: '0', border: 'none'}}>
-                      <ul className="collection with-header left-align">
-                        <li className="collection-header"><h4>{this.state.resName}</h4></li>
-                        <li className="collection-item">
-                        {rating} <span>{this.state.votes} votes</span>
-                        </li>
-                        <li className="collection-item">Cuisines: {this.state.cuisines}</li>
-                    <li className="collection-item">Number: {this.state.number}</li>
-       
-                        <li className="collection-item">Delivery Service: {this.state.delivers === 0 ?<span>No</span>:<span>Yes</span>}</li>
+                      
+                      <ul>
+                          <li className="">
+                          {rating} <span>{this.state.votes} votes</span>
+                          </li>
+                          <li className="">Cuisines: {this.state.cuisines}</li>
+                          <li className="">Number: {this.state.number}</li>
+                          <li className="">Delivery Service: {this.state.delivers === 0 ?<span>No</span>:<span>Yes</span>}</li>
                       </ul>
-                  </div>
-                </div>
             </div>
           {/* Dummy Div */}
           {/* <div className="col s0 m2"></div> */}
