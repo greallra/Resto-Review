@@ -8,11 +8,11 @@ const RestaurantList = withRouter(props => <RestaurantListNoRouter  {...props}/>
 class RestaurantListNoRouter extends Component {
   state = {
     visible: true,
-    restsList: [],
     cuisineOption: "",
     diningOption: "",
     diningRating: 0,
-    filteredList: []
+    filteredList: undefined,
+    test: undefined
   }
 
  handleClickedCuisine = (e)=>{
@@ -24,6 +24,7 @@ class RestaurantListNoRouter extends Component {
     }
     
  }
+
  handleClickedDining = (e)=>{
      let choice = e.target.value;
     if(choice === this.state.diningOption) {
@@ -49,6 +50,9 @@ class RestaurantListNoRouter extends Component {
     }
    
  }
+ handleFilterReset = ()=>{
+   this.setState({filteredList: undefined})
+ }
 
  filterRestList = ()=>{
    //Check 1 what's ticked and filter accordindly 2 Nothing ticked then empty array
@@ -59,13 +63,13 @@ class RestaurantListNoRouter extends Component {
     
   // No Cusine or Dining Filters = []
    if(!cuisineOption && !diningOption) {
-    filtered = this.state.restsList;
+    filtered = this.props.defaultRestsList;
     console.log("!cuisineOption && !diningOption", filtered);
-    
    }
    // YES Cusine NO Dining
    else if(cuisineOption && !diningOption) {
-    filtered = this.state.restsList.filter((restObj)=>{
+    console.log(" before filter", this.props.defaultRestsList);
+    filtered = this.props.defaultRestsList.filter((restObj)=>{
       if(restObj.restaurant.cuisines.toLowerCase().includes(cuisineOption.toLowerCase())){
           return restObj
       }  
@@ -74,7 +78,7 @@ class RestaurantListNoRouter extends Component {
    }
   // NO Cusine YES Dining
    else if(!cuisineOption && diningOption) {
-    filtered = this.state.restsList.filter((restObj)=>{
+    filtered = this.props.defaultRestsList.filter((restObj)=>{
       if(diningOption === "Cheap Eats"){
           return restObj.restaurant.price_range === 2
       }  
@@ -89,7 +93,7 @@ class RestaurantListNoRouter extends Component {
   // YES Cusine YES Dining
   }else if(cuisineOption && diningOption){
     console.log(" YES cuisineOption && YES diningOption", filtered);
-     filtered = this.state.restsList.filter((restObj)=>{
+     filtered = this.props.defaultRestsList.filter((restObj)=>{
       if(restObj.restaurant.cuisines.toLowerCase().includes(cuisineOption.toLowerCase())){
           if(diningOption === "Cheap Eats" && restObj.restaurant.price_range > 0 && restObj.restaurant.price_range <=2 ){
             return restObj
@@ -102,54 +106,40 @@ class RestaurantListNoRouter extends Component {
           }     
       }  
      })
-    console.log("xxx". filtered);
-    
-  
    }
+   console.log("helo???", filtered);
    
-     
-     console.log(filtered);
-     
      this.setState({filteredList: filtered}, ()=>{this.mapRests()})
  }
 
  mapRests = ()=>{
-    if(this.state.filteredList.length > 0) {
-      return <div>filtered list</div>
-      //render filtered list here
-        // return this.state.filteredList.map((restObject, index)=>{
-        //   return ( 
-        //            <div className={`card-cont`} key={index}>
-        //               <div className="img-wrapper">
-        //                  <img src={restObject.restaurant.thumb}  alt=""/>
-        //                </div>
-        //                <div className="rest-name">
-        //                  <span className="name">{restObject.restaurant.name}</span> 
-        //                  <span><b className="food-type-title">Food Type:</b><span className="food-type-content"> {restObject.restaurant.cuisines}</span></span>
-        //                  <span><b className="rating">Rating:</b><span className="rating-value">{restObject.restaurant.user_rating.aggregate_rating}</span> </span>
-        //                </div>
-        //                <div className="map-wrapper">
-        //                  <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>
-                      
-                        
-        //                </div>
-        //                <div className="commentsRating-wrapper">
-            
-        //                  <span><span className="comments"> Comments:</span></span>
-        //                  <span>&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span>
-        //                  <span className="more-info"><Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link></span>
-        //                  <span className="address"><span className="address-title">Address:</span> <span className="address-value">{restObject.restaurant.location.address}</span> </span> 
-        //                </div> 
-        //            </div>
-                  
-        //          )
-        //    })
+    //Default Loads Props
+    if(this.state.filteredList !== undefined) {
+        return this.state.filteredList.map((restObject, index)=>{
+          return (<div className={`my-card-cont`} key={index}>
+          <div className="img-wrapper">
+             <img src={restObject.restaurant.thumb}  alt=""/>
+           </div>
+           <div className="rest-name">
+             <span className="name">{restObject.restaurant.name}</span> 
+             <span><b className="food-type-title">Food Type:</b><span className="food-type-content"> {restObject.restaurant.cuisines}</span></span>
+             <span><b className="rating">Rating:</b><span className="rating-value">{restObject.restaurant.user_rating.aggregate_rating}</span> </span>
+           </div>
+           <div className="map-wrapper">
+             <Map lat={restObject.restaurant.location.latitude} long={restObject.restaurant.location.longitude}/>  
+           </div>
+           <div className="commentsRating-wrapper">  
+             <span><span className="comments"> Comments:</span></span>
+             <span>&quot;{restObject.restaurant.user_rating.rating_text}	&quot;</span>
+             <span className="more-info"><Link to={`/restaurants/${restObject.restaurant.id}`}>More Info</Link></span>
+             <span className="address"><span className="address-title">Address:</span> <span className="address-value">{restObject.restaurant.location.address}</span> </span> 
+           </div> 
+       </div>)
+           })
     }
-    else if(this.props.restsList.length === 0) {
-        return <div>loading</div>
-    }
+    //or else always render filtered
     else {
-      return this.props.restsList.map((restObject, index)=>{
+      return this.props.defaultRestsList.map((restObject, index)=>{
            return(<div className={`my-card-cont`} key={index}>
                       <div className="img-wrapper">
                          <img src={restObject.restaurant.thumb}  alt=""/>
@@ -178,74 +168,66 @@ class RestaurantListNoRouter extends Component {
    return  <div></div>
  }
 
- sideBar = ()=>{
-   return <div>
+ filterBar = ()=>{
+   return <div className="filterbar">
+   <div className="cuisine">
    <h4>Cuisine</h4>
-   <form action="#">
-           <p>
-           <label>
-               <input type="checkbox" 
-               checked={this.state.cuisineOption == "Italian"}
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               value="Italian"
-               />
-               <span>Italian</span>
-           </label>
-           </p>
-           <p>
-           <label>
-               <input type="checkbox" 
-               checked={this.state.cuisineOption == "American"} 
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               value="American"
-               />
-               <span>American</span>
-           </label>
-           </p>
-           <p>
-           <label>
-               <input type="checkbox" 
-               class="filled-in" 
-               checked={this.state.cuisineOption == "Irish"} 
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               value="Irish"
-               />
-               <span>Irish</span>
-           </label>
-           </p>
-           <p>
-           <label>
-               <input 
-               id="indeterminate-checkbox" 
-               type="checkbox" 
-               checked={this.state.cuisineOption == "Spanish"}
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               value="Spanish"
-               />
-               <span>Spanish</span>
-           </label>
-           </p>
-           <p>
-           <label>
-               <input 
-               value="Steak"
-               type="checkbox" 
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               checked={this.state.cuisineOption == "Steak"}  />
-               <span>Steak</span>
-           </label>
-           </p>
-           <p>
-           <label>
-               <input type="checkbox" 
-               checked={this.state.cuisineOption == "Thai"} 
-               onClick={(e)=>{this.handleClickedCuisine(e)}}
-               value="Thai"
-               />
-               <span>Thai</span>
-           </label>
-           </p>
-       </form>
+    <form action="#">
+            <p>
+            <label>
+                <input type="checkbox" 
+                checked={this.state.cuisineOption == "Italian"}
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                value="Italian"
+                />
+                <span>Italian</span>
+            </label>
+            <label>
+                <input type="checkbox" 
+                checked={this.state.cuisineOption == "American"} 
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                value="American"
+                />
+                <span>American</span>
+            </label>
+            <label>
+                <input type="checkbox" 
+                checked={this.state.cuisineOption == "Irish"} 
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                value="Irish"
+                />
+                <span>Irish</span>
+            </label>
+            <label>
+                <input 
+                id="indeterminate-checkbox" 
+                type="checkbox" 
+                checked={this.state.cuisineOption == "Spanish"}
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                value="Spanish"
+                />
+                <span>Spanish</span>
+            </label>
+            <label>
+                <input 
+                value="Steak"
+                type="checkbox" 
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                checked={this.state.cuisineOption == "Steak"}  />
+                <span>Steak</span>
+            </label>
+            <label>
+                <input type="checkbox" 
+                checked={this.state.cuisineOption == "Thai"} 
+                onClick={(e)=>{this.handleClickedCuisine(e)}}
+                value="Thai"
+                />
+                <span>Thai</span>
+            </label>
+            </p>
+        </form>
+       </div>
+    <div className="dining-style">
        <h4>Dining Style</h4>
        <form action="">
          <p>
@@ -275,13 +257,15 @@ class RestaurantListNoRouter extends Component {
            </label>
          </p>
        </form>
-       </div>
+      </div>
+      <div onClick={this.handleFilterReset}>Reset Filters</div>
+</div>
  }
 
   render() {
    
     const styles = { display: this.state.visible ? 'block' : 'none' }
-    const restaurants = this.props.restsList.length > 0 ? this.mapRests(): this.mapLoading();
+    const restaurants = this.props.defaultRestsList.length > 0 ? this.mapRests(): this.mapLoading();
     return <div style={styles}>
         {/* <Link 
         onClick={this.props.history.goBack}
@@ -289,7 +273,7 @@ class RestaurantListNoRouter extends Component {
           <span className="center-vertically">Back</span>
           </Link> */}
  
-      {/* {this.sideBar()} */}
+      {this.filterBar()}
       <div className="loading-text">Displaying Restaurants in {this.props.city}</div>
       <div className="rests-wrapper">
           {restaurants}

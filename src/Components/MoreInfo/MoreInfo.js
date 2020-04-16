@@ -159,31 +159,32 @@ class MoreInfoChild extends Component {
         <div className="row">
           {/* Dummy Div */}
           {/* <div className="col s0 m2"></div> */}
-          <div className="col s12 center-align">
-
-                    <h4>{this.state.resName}</h4>
-                    <p>{this.state.location}</p>
-                    <div className="img-cont"><img className="slider-img" src={this.state.resPhotos[Math.floor(Math.random() * 10)].photo.url} alt=""/></div>
-                    <div className="shtyle">  
-                      <MapContainer
-                       
-                        lat={this.state.lat}
-                        long={this.state.long}
-                            />
-                    </div>
-                      
-                      <ul>
-                          <li className="">
-                          {rating} <span>{this.state.votes} votes</span>
-                          </li>
-                          <li className="">Cuisines: {this.state.cuisines}</li>
-                          <li className="">Number: {this.state.number}</li>
-                          <li className="">Delivery Service: {this.state.delivers === 0 ?<span>No</span>:<span>Yes</span>}</li>
-                      </ul>
+          <div className="col s12">
+            <div className="info-head">
+              <h4>{this.state.resName}</h4>
+              <p>{this.state.location}</p>
             </div>
-          {/* Dummy Div */}
-          {/* <div className="col s0 m2"></div> */}
-        </div>
+            <div className="img-cont"><img className="slider-img" src={this.state.resPhotos[Math.floor(Math.random() * 10)].photo.url} alt=""/></div>
+            <div className="map-review-section">
+                <div className="map-outer">
+                  <div className="shtyle">  
+                    <MapContainer
+                      lat={this.state.lat}
+                      long={this.state.long}
+                          />
+                  </div>
+                </div>
+                <ul className="reviews-ul">
+                      <li className="votes">
+                      {rating} <span>{this.state.votes} votes</span>
+                      </li>
+                      <li className=""><span className="bold-ones">Cuisines:</span> {this.state.cuisines}</li>
+                      <li className=""><span className="bold-ones">Number:</span>  {this.state.number}</li>
+                      <li className=""><span className="bold-ones">Delivery Service:</span>  {this.state.delivers === 0 ?<span>No</span>:<span>Yes</span>}</li>
+                  </ul>
+              </div>
+            </div>{/* col*/}
+        </div>{/* row*/}
         <Link 
         onClick={this.props.history.goBack}
         className="row">Go Back</Link>

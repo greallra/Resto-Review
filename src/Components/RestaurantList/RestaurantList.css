@@ -104,3 +104,14 @@
     50%   { color: rgba(43,43,43)}
    100%   { color: rgba(155,155,155)}
   }
+
+.filterbar {
+    display: grid;
+    padding: 35px 10px;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+}
+.filterbar form label {
+    display: block;
+    padding-left: 20px;
+}

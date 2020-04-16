@@ -6788,7 +6788,7 @@ class RestaurantsNoRouter extends Component {
                 </div>
               </div>
 
-            <RestaurantList restsList={this.state.restsList} city={this.state.cityName}/>
+            <RestaurantList defaultRestsList={this.state.restsList} city={this.state.cityName}/>
 
               {/* <Link 
                 onClick={this.props.history.goBack}
