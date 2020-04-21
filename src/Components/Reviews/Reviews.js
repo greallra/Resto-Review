@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReviewDetail from './ReviewDetail';
+import './Reviews.css';
 import {Link }from "react-router-dom";
 import data from './data';
 const scrp = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=Paris&key=AIzaSyCnqBDH_kR_tvH3FyRekQ5exthVZ6MOSQk";
@@ -15,6 +16,9 @@ class Reviews extends Component {
     long: null,
     rests : [],
     loading: false
+  }
+  componentWillUpdate() {
+    console.clear()
   }
   componentDidMount() {
    //set state with dummy data for now
@@ -48,7 +52,10 @@ class Reviews extends Component {
                                               c,
                                               d,
                                               formattedPrediction
-                                            }
+                                            },
+                                          querMode,
+                                          gm_bindings" {},
+                                          formattedPrediction
                                         },
                                         Hc: "place",
                                         wi: {
@@ -64,9 +71,8 @@ class Reviews extends Component {
                                       }
             }
           */
-         let newSearchValue = 99
-        newSearchValue=autoCompleteObject.gm_accessors_77.place.ue.formattedPrediction;
-        console.log("test");
+        let newSearchValue=autoCompleteObject.gm_accessors_.place.ue.formattedPrediction;
+        console.log("newSearchValue", newSearchValue);
          
         })
     }catch(err){
@@ -135,6 +141,7 @@ class Reviews extends Component {
   }
   
   render() {
+    const test = ' test';
     const renderRests = ()=>{
       
       if(this.state.rests.length === 0) {
@@ -158,7 +165,7 @@ class Reviews extends Component {
    
     return <div>
             <div className="row">
-                <div className="col s12"><h2>Search for Restaurant to Review</h2> </div> 
+                <div className="col s12"><h2>Search for Restaurant to Review</h2></div> 
            </div>
            
            <div className="row">
