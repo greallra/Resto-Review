@@ -135,9 +135,12 @@ class MoreInfoChild extends Component {
       for(var i = 1; i <= 5; i++) {
         if(i < this.state.rating) {
           arrayOfSpans.push( <span className="fa fa-star checked" key={i}></span>)
+          console.log("if");
+          
         }
         else {
           arrayOfSpans.push( <span className="fa fa-star"  key={i}></span>)
+          console.log("else");
         }
       }
      return arrayOfSpans

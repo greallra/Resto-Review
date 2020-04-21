@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Link, withRouter } from 'react-router-dom';
 import '../RestaurantList/RestaurantList.css'
 import Map from '../MoreInfo/MapContainer';
-
+import LoadingBar from '../Elements/LoadingBar';
 
 const RestaurantList = withRouter(props => <RestaurantListNoRouter  {...props}/>);
 class RestaurantListNoRouter extends Component {
@@ -15,7 +15,10 @@ class RestaurantListNoRouter extends Component {
     test: undefined
   }
 
+
  handleClickedCuisine = (e)=>{
+  console.log("cuisine");
+   this.props.setLoading(true);
      let choice = e.target.value;
     if(choice === this.state.cuisineOption) {
         this.setState({cuisineOption : ""}, ()=>{this.filterRestList()})
@@ -27,8 +30,10 @@ class RestaurantListNoRouter extends Component {
 
  handleClickedDining = (e)=>{
      let choice = e.target.value;
+     console.log("dining");
+     this.props.setLoading(true);
     if(choice === this.state.diningOption) {
-        this.setState({diningOption : "", diningRating: 0}, ()=>{this.filterRestList()})
+        this.setState({diningOption : "", diningRating: 0}, ()=>{this.filterRestList();})
     }else {
         this.setState({diningOption : choice}, ()=>{
           this.filterRestList();
@@ -50,9 +55,6 @@ class RestaurantListNoRouter extends Component {
     }
    
  }
- handleFilterReset = ()=>{
-   this.setState({filteredList: undefined})
- }
 
  filterRestList = ()=>{
    //Check 1 what's ticked and filter accordindly 2 Nothing ticked then empty array
@@ -64,17 +66,14 @@ class RestaurantListNoRouter extends Component {
   // No Cusine or Dining Filters = []
    if(!cuisineOption && !diningOption) {
     filtered = this.props.defaultRestsList;
-    console.log("!cuisineOption && !diningOption", filtered);
    }
    // YES Cusine NO Dining
    else if(cuisineOption && !diningOption) {
-    console.log(" before filter", this.props.defaultRestsList);
     filtered = this.props.defaultRestsList.filter((restObj)=>{
       if(restObj.restaurant.cuisines.toLowerCase().includes(cuisineOption.toLowerCase())){
           return restObj
       }  
      })
-     console.log(" YES cuisineOption && !diningOption", filtered);
    }
   // NO Cusine YES Dining
    else if(!cuisineOption && diningOption) {
@@ -89,10 +88,8 @@ class RestaurantListNoRouter extends Component {
           return restObj.restaurant.price_range === 5
       }  
      })
-     console.log("!cuisineOption &&  YES diningOption", filtered);
   // YES Cusine YES Dining
   }else if(cuisineOption && diningOption){
-    console.log(" YES cuisineOption && YES diningOption", filtered);
      filtered = this.props.defaultRestsList.filter((restObj)=>{
       if(restObj.restaurant.cuisines.toLowerCase().includes(cuisineOption.toLowerCase())){
           if(diningOption === "Cheap Eats" && restObj.restaurant.price_range > 0 && restObj.restaurant.price_range <=2 ){
@@ -107,12 +104,17 @@ class RestaurantListNoRouter extends Component {
       }  
      })
    }
-   console.log("helo???", filtered);
-   
-     this.setState({filteredList: filtered}, ()=>{this.mapRests()})
+
+     this.setState({filteredList: filtered}, 
+      ()=>{
+       this.mapRests();
+       this.props.setLoading(false);
+      })
+
  }
 
  mapRests = ()=>{
+    //loading
     //Default Loads Props
     if(this.state.filteredList !== undefined) {
         return this.state.filteredList.map((restObject, index)=>{
@@ -136,9 +138,10 @@ class RestaurantListNoRouter extends Component {
            </div> 
        </div>)
            })
+
     }
     //or else always render filtered
-    else {
+    else {  
       return this.props.defaultRestsList.map((restObject, index)=>{
            return(<div className={`my-card-cont`} key={index}>
                       <div className="img-wrapper">
@@ -258,12 +261,11 @@ class RestaurantListNoRouter extends Component {
          </p>
        </form>
       </div>
-      <div onClick={this.handleFilterReset}>Reset Filters</div>
 </div>
  }
 
   render() {
-   
+    const loading = { display: this.props.loading ? 'block' : 'none' }
     const styles = { display: this.state.visible ? 'block' : 'none' }
     const restaurants = this.props.defaultRestsList.length > 0 ? this.mapRests(): this.mapLoading();
     return <div style={styles}>
@@ -274,7 +276,8 @@ class RestaurantListNoRouter extends Component {
           </Link> */}
  
       {this.filterBar()}
-      <div className="loading-text">Displaying Restaurants in {this.props.city}</div>
+      <div className="loading-text" style={{padding:'10px'}}><span>Displaying Restaurants in {this.props.city}</span></div>
+      <LoadingBar style={loading}/>
       <div className="rests-wrapper">
           {restaurants}
       </div>

@@ -29,14 +29,51 @@ class Reviews extends Component {
       const autoCompleteObject = new goog.maps.places.Autocomplete(input);
       
      // event listener on autocomplete
+     try{
       autoCompleteObject.addListener('place_changed', ()=> {
           //get the inputted address predcited by using the event listener on autocomplete
           console.log("autoCompleteObject", autoCompleteObject);
-          const newSearchValue=autoCompleteObject.gm_accessors_.place.ue.formattedPrediction
+          /*
+            Au {
+              __e3_ : {},
+              gm_bindings_ : {},
+              gm_accessors_ : place : {
+                                        ue : P9 : {
+                                          a,
+                                          b,
+                                          b,
+                                          d,
+                                          gm_accessors_ : {
+                                              a,
+                                              c,
+                                              d,
+                                              formattedPrediction
+                                            }
+                                        },
+                                        Hc: "place",
+                                        wi: {
+                                          ue : Au {
+                                              __e3_ : {
+                                                place_changed : {1 : qe},
+                                                resize : 13 : {}
+                                              }
+                                            },
+                                          Hc : "place",
+                                          closure_uid_308817748: 14
+                                        }
+                                      }
+            }
+          */
+         let newSearchValue = 99
+        newSearchValue=autoCompleteObject.gm_accessors_77.place.ue.formattedPrediction;
+        console.log("test");
          
-         
-          this.setState({locationText: newSearchValue},()=>{})
-      })
+        })
+    }catch(err){
+      console.log("caught",err);
+    }
+          // this.setState({locationText: newSearchValue},()=>{})
+     
   }
 
   handleCheckLocation = (e)=>{

@@ -1,10 +1,43 @@
 
+/* 
+<div style={styles}>
+          {this.filterBar()}
+          <div className="loading-text">Displaying Restaurants in {this.props.city}</div>
+          <div className="rests-wrapper">
+              {restaurants}
+          </div>
+        </div>
+
+*/
+
+.filterbar {
+    display: grid;
+    padding: 35px 10px;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+.filterbar form label {
+    display: block;
+    padding-left: 0px;
+}
+
+@media only screen and (min-width: 1000px){
+    .filterbar form p {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .filterbar label {
+        padding: 4px 10px;
+    }
+}
+
 .rests-wrapper {
     width: 100%;
     padding: 35px 10px;
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 50px 0;
+    min-height: 400px;
 }
 @media only screen and (min-width: 700px) {
     .rests-wrapper {
@@ -20,15 +53,18 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    grid-gap: 0px 0px;
+    grid-gap: 0px 15px;
 }
 @media only screen and (min-width: 700px) {  
     .my-card-cont {
         grid-template-columns: 1fr 2fr;
     }
 }
-.map-wrapper {
+.map-wrapper, .img-wrapper {
    position: relative;
+   width: 100%;
+   max-width: 200px;
+   height: auto;
 }
 
 /* 1 */
@@ -36,9 +72,7 @@
     order:1;
 }
 .img-wrapper img {
-    min-width: 150px;
-    max-width: 150px;
-    height: auto;
+
     border-radius: 10%;
 }
 /* 2 */
@@ -73,9 +107,6 @@
 /* 3 */
 .map-wrapper {
     order:3;
-    min-height: 150px;
-    max-width: 150px;
-    position: relative;
 }
 /* 4 */
 .commentsRating-wrapper {
@@ -95,23 +126,15 @@
 .commentsRating-wrapper .address {
     padding: 15px 0;
 }
-.loading-text {
-  opacity: '0.5';
+.loading-text span{
+    background-color: rgba(0,0,0,0.05);
+  opacity: 0.5;
   animation: myStyle 5s infinite;
+  padding:10px;
+  border-radius: 5%;
 }
 @keyframes myStyle {
     0%   { color: rgba(30,30,30),}
     50%   { color: rgba(43,43,43)}
    100%   { color: rgba(155,155,155)}
   }
-
-.filterbar {
-    display: grid;
-    padding: 35px 10px;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-}
-.filterbar form label {
-    display: block;
-    padding-left: 20px;
-}

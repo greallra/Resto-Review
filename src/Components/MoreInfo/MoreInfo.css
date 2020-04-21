@@ -10,6 +10,10 @@
     overflow: hidden;
     border-radius: 4%;
 }
+.slider-img {
+    height: 100%;
+    width: 100%;
+}
 .shtyle {
     position: relative;
     height: 150px;
@@ -32,7 +36,9 @@
     font-weight: 900;
     font-size: 16px;
 }
-
+.checked {
+    color: gold;
+}
 @media only screen and (min-width:700px) {
     .map-review-section {
         
