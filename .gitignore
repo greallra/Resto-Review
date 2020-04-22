@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+# apo keys
+.keys.js
 # production
 /build
 

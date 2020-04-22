@@ -37,7 +37,7 @@ class SideNav extends React.Component {
             </div>
 
             <div className="header-cont">
-                <header onClick={this.handleDropdown}><a>See More</a><i className="material-icons" >arrow_drop_down</i></header>
+                <header onClick={this.handleDropdown}><a href="">See More</a><i className="material-icons" >arrow_drop_down</i></header>
                 <ul className={`drop-down ${this.state.dropDownOpen ? 'drop-down-open':''}`}>
                    <li><Link to={'/restaurants'}>Restaurants</Link></li>
                    <li><Link to={'/reviews'}>Reviews</Link></li>

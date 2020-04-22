@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
-import logo from './logo.png';
 
 class Home extends Component {
   state = {
@@ -18,12 +17,12 @@ class Home extends Component {
               <div>
                <Link 
                 to="/restaurants" 
-                class="waves-effect waves-light btn red center-align link">
+                className="waves-effect waves-light btn home-btn center-align link">
                 <span className="center-vertically">Find Restaurants</span>
                </Link>
                <Link 
                to="/reviews" 
-               className="waves-effect waves-light btn red center-align link">
+               className="waves-effect waves-light btn home-btn center-align link">
                  <span className="center-vertically">Get Restaurant Reviews</span>
                 </Link>
               </div>
@@ -35,6 +34,3 @@ class Home extends Component {
 }
 
 export default Home
-
-// center-vertically
-// center-vertically

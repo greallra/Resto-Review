@@ -3,3 +3,10 @@
    margin: 0;
    padding: 30px 30px 10px 30px;
 }
+.home-btn {
+   background-color: #d64b3e;
+   white-space: nowrap;
+}
+.home-btn:hover {
+   background-color:#de6e64;
+}

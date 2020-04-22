@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Nav.css'
 import WindowSizeListener from 'react-window-size-listener'
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 export default class Nav extends Component {
   state ={
@@ -54,8 +54,8 @@ export default class Nav extends Component {
     }
    
     <div className="right-side">
-        <i class="material-icons">search</i>
-        {this.state.windowSize.windowWidth < 600 ? <i class="material-icons menu" onClick={this.handleSideNavToggle}>menu</i>: <i></i>}
+        <i className="material-icons">search</i>
+        {this.state.windowSize.windowWidth < 600 ? <i className="material-icons menu" onClick={this.handleSideNavToggle}>menu</i>: <i></i>}
     </div>
     <WindowSizeListener onResize={windowSize => {
       this.setState({windowSize})

@@ -13,10 +13,8 @@ class ReviewDetails extends Component {
         name: ""
     }
     componentDidMount() {
-       
-        
+
         const url = `https://developers.zomato.com/api/v2.1/reviews?res_id=${this.props.match.params.dynamo}`
-        console.log("url", url);
         const fetchOptions = {
             method: "GET",
             headers: {
@@ -33,15 +31,14 @@ class ReviewDetails extends Component {
             })
         })
         .then(this.secondCall())
-        .catch((err)=> console.log(err))
+        .catch((err)=> alert(err))
     }
     getReviews = ()=>{
         return <ul>
         {this.state.user_reviews.map((o)=>{
-            console.log(o);
-            
+
         return <li className="reviewDetailLi">
-                <div className="profile"><span><img src={o.review.user.profile_image} id="profile_image"/></span><span>{o.review.user.name}</span></div>
+                <div className="profile"><span><img src={o.review.user.profile_image} alt="hey" id="profile_image"/></span><span>{o.review.user.name}</span></div>
                 <div className="review-info">
                     <div className="top-col"><span><RatingSpans rating={o.review.rating}/></span><span>{o.review.timestamp}</span><span>Device</span></div>
                     <h5>Comments: </h5>
@@ -63,19 +60,19 @@ class ReviewDetails extends Component {
         const url2 = `https://developers.zomato.com/api/v2.1/restaurant?res_id=${this.props.match.params.dynamo}`
         fetch(url2,fetchOptions2)
         .then(res => res.json())
-        .then(res=>{console.log(res)
+        .then(res=>{
             this.setState({
                 name: res.name,
                 featured_image: res.featured_image
             })
         })
-        .catch(e=>{console.log(e)})
+        .catch(e=>{alert(e)})
     }
     render() {
         return <div className="reviewDetailCont">
             <h3>{this.state.totalReviews} reviews of:</h3>
             <h4>{this.state.name}</h4>
-            <div className="img-cont"><img src={this.state.featured_image} alt="" className="review-detail-img"/></div>
+            <div className="img-cont"><img src={this.state.featured_image} alt="hey" className="review-detail-img"/></div>
            
                 {this.state.user_reviews.length > 0 ? this.getReviews(): <div></div>}
              

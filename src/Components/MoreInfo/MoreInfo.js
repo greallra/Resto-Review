@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom';
 import M  from 'materialize-css'
 import './MoreInfo.css'
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import MapContainer from './MapContainer';
 import { Link } from "react-router-dom";
+import { keys } from '../../keys';
 
 const MoreInfo = withRouter(props => <MoreInfoChild {...props}/>);
 
@@ -65,15 +63,14 @@ class MoreInfoChild extends Component {
             method: "GET",
             headers: {
               'Content-Type': 'application/json',
-              'user-key': 'f7a5b883bef34e0148437a909b393a96'
+              'user-key': keys.zomatoApiKey
             }
           })
         .then((res)=>{
             return res.json();
         })
         .then((res)=>{
-          console.log(res);
-          
+
             this.setState({
                 resName: res.name,
                 resId: res.id,
@@ -135,12 +132,10 @@ class MoreInfoChild extends Component {
       for(var i = 1; i <= 5; i++) {
         if(i < this.state.rating) {
           arrayOfSpans.push( <span className="fa fa-star checked" key={i}></span>)
-          console.log("if");
           
         }
         else {
           arrayOfSpans.push( <span className="fa fa-star"  key={i}></span>)
-          console.log("else");
         }
       }
      return arrayOfSpans

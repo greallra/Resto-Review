@@ -17,7 +17,7 @@ class RestaurantListNoRouter extends Component {
 
 
  handleClickedCuisine = (e)=>{
-  console.log("cuisine");
+ 
    this.props.setLoading(true);
      let choice = e.target.value;
     if(choice === this.state.cuisineOption) {
@@ -30,7 +30,6 @@ class RestaurantListNoRouter extends Component {
 
  handleClickedDining = (e)=>{
      let choice = e.target.value;
-     console.log("dining");
      this.props.setLoading(true);
     if(choice === this.state.diningOption) {
         this.setState({diningOption : "", diningRating: 0}, ()=>{this.filterRestList();})
@@ -179,7 +178,7 @@ class RestaurantListNoRouter extends Component {
             <p>
             <label>
                 <input type="checkbox" 
-                checked={this.state.cuisineOption == "Italian"}
+                checked={this.state.cuisineOption === "Italian"}
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
                 value="Italian"
                 />
@@ -187,7 +186,7 @@ class RestaurantListNoRouter extends Component {
             </label>
             <label>
                 <input type="checkbox" 
-                checked={this.state.cuisineOption == "American"} 
+                checked={this.state.cuisineOption === "American"} 
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
                 value="American"
                 />
@@ -195,7 +194,7 @@ class RestaurantListNoRouter extends Component {
             </label>
             <label>
                 <input type="checkbox" 
-                checked={this.state.cuisineOption == "Irish"} 
+                checked={this.state.cuisineOption === "Irish"} 
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
                 value="Irish"
                 />
@@ -205,7 +204,7 @@ class RestaurantListNoRouter extends Component {
                 <input 
                 id="indeterminate-checkbox" 
                 type="checkbox" 
-                checked={this.state.cuisineOption == "Spanish"}
+                checked={this.state.cuisineOption === "Spanish"}
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
                 value="Spanish"
                 />
@@ -216,12 +215,12 @@ class RestaurantListNoRouter extends Component {
                 value="Steak"
                 type="checkbox" 
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
-                checked={this.state.cuisineOption == "Steak"}  />
+                checked={this.state.cuisineOption === "Steak"}  />
                 <span>Steak</span>
             </label>
             <label>
                 <input type="checkbox" 
-                checked={this.state.cuisineOption == "Thai"} 
+                checked={this.state.cuisineOption === "Thai"} 
                 onClick={(e)=>{this.handleClickedCuisine(e)}}
                 value="Thai"
                 />
@@ -236,7 +235,7 @@ class RestaurantListNoRouter extends Component {
          <p>
            <label>
                <input type="checkbox" 
-               checked={this.state.diningOption == "Cheap Eats"}
+               checked={this.state.diningOption === "Cheap Eats"}
                onClick={(e)=>{this.handleClickedDining(e)}}
                value="Cheap Eats"
                />
@@ -244,7 +243,7 @@ class RestaurantListNoRouter extends Component {
            </label>
            <label>
                <input type="checkbox" 
-               checked={this.state.diningOption == "Mid Range"}
+               checked={this.state.diningOption === "Mid Range"}
                onClick={(e)=>{this.handleClickedDining(e)}}
                value="Mid Range"
                />
@@ -252,7 +251,7 @@ class RestaurantListNoRouter extends Component {
            </label>
            <label>
                <input type="checkbox" 
-               checked={this.state.diningOption == "Fine Dining"}
+               checked={this.state.diningOption === "Fine Dining"}
                onClick={(e)=>{this.handleClickedDining(e)}}
                value="Fine Dining"
                />
@@ -265,10 +264,8 @@ class RestaurantListNoRouter extends Component {
  }
 
   render() {
-    const loading = { display: this.props.loading ? 'block' : 'none' }
-    const styles = { display: this.state.visible ? 'block' : 'none' }
     const restaurants = this.props.defaultRestsList.length > 0 ? this.mapRests(): this.mapLoading();
-    return <div style={styles}>
+    return <div>
         {/* <Link 
         onClick={this.props.history.goBack}
         className="waves-effect waves-light btn black link-goback">
@@ -277,7 +274,8 @@ class RestaurantListNoRouter extends Component {
  
       {this.filterBar()}
       <div className="loading-text" style={{padding:'10px'}}><span>Displaying Restaurants in {this.props.city}</span></div>
-      <LoadingBar style={loading}/>
+      <div style={{height:'50px'}}></div>
+      <LoadingBar loading={this.props.loading}/>
       <div className="rests-wrapper">
           {restaurants}
       </div>

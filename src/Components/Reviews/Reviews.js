@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import ReviewDetail from './ReviewDetail';
+import LoadingBar from '../Elements/LoadingBar';
 import './Reviews.css';
 import {Link }from "react-router-dom";
 import data from './data';
-const scrp = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=Paris&key=AIzaSyCnqBDH_kR_tvH3FyRekQ5exthVZ6MOSQk";
-
+import { keys } from '../../keys';
 
 class Reviews extends Component {
   state ={
     locationText : "",
     locationVerified: false,
-    zomatoKey:"f7a5b883bef34e0148437a909b393a96",
     error: false,
     lat: null,
     long: null,
@@ -18,11 +16,11 @@ class Reviews extends Component {
     loading: false
   }
   componentWillUpdate() {
-    console.clear()
+   
   }
   componentDidMount() {
    //set state with dummy data for now
-   this.setState({rests: data, city: data[0].restaurant.location.address})
+   this.setState({rests: data, city: data[0].restaurant.location.city})
   
 
       //clear input
@@ -36,7 +34,6 @@ class Reviews extends Component {
      try{
       autoCompleteObject.addListener('place_changed', ()=> {
           //get the inputted address predcited by using the event listener on autocomplete
-          console.log("autoCompleteObject", autoCompleteObject);
           /*
             Au {
               __e3_ : {},
@@ -70,13 +67,19 @@ class Reviews extends Component {
                                         }
                                       }
             }
+
           */
-        let newSearchValue=autoCompleteObject.gm_accessors_.place.ue.formattedPrediction;
-        console.log("newSearchValue", newSearchValue);
+         let newSearchValue;
+         if(autoCompleteObject.gm_accessors_.place.hasOwnProperty('ue')){
+          newSearchValue=autoCompleteObject.gm_accessors_.place.ue.formattedPrediction;
+         } else if(autoCompleteObject.gm_accessors_.place.hasOwnProperty('ze')) {
+          newSearchValue=autoCompleteObject.gm_accessors_.place.ze.formattedPrediction;
+         } else {
+           newSearchValue = "neither condition worked"
+         }
          
         })
     }catch(err){
-      console.log("caught",err);
     }
           // this.setState({locationText: newSearchValue},()=>{})
      
@@ -90,13 +93,11 @@ class Reviews extends Component {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
-      'user-key': this.state.zomatoKey
+      'user-key': keys.zomatoApiKey
     }
       })
     .then(res => res.json())
     .then((res)=>{
-      console.log("oye", res);
-      
       this.setState({
         lat: res.location_suggestions[0].latitude,
         long: res.location_suggestions[0].longitude,
@@ -117,12 +118,11 @@ class Reviews extends Component {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'user-key': this.state.zomatoKey
+        'user-key': keys.zomatoApiKey
       }
         })
       .then(res => res.json())
       .then((res)=>{
-        console.log(res);
         this.setState({
           rests: res.restaurants
         });
@@ -187,21 +187,20 @@ class Reviews extends Component {
                                   // className={`unopacified ${this.state.modalOpen ? "opacified": ""}`}
                               />
                               </div>
-                              {this.state.locationText.length > 0 && !this.state.locationVerified ?
-                              <button onClick={this.handleCheckLocation} type="button" className="btn waves-effect waves-light btn-small red">Check Location</button>:
-                              <div style={{height: '36px'}}></div>}
-                              {this.state.locationVerified ? <h2 className="">Displaying Reviews...</h2> : <div>Displaying Reviews in {this.state.city}</div>}
+                              {/* Min Height Container */}
+                              <div style={{minHeight: '100px'}}>
+                                {this.state.locationText.length > 0 && !this.state.locationVerified ?
+                                <button onClick={this.handleCheckLocation} type="button" className="btn waves-effect waves-light btn-small red" style={{margin: '10px 0'}}>Check Location</button>:<div></div>}
+                              </div>
+                              {this.state.locationVerified ? <h2 className="loading-text"><span>Displaying Reviews...<span></span></span></h2> : <div className="loading-text"><span>Displaying Reviews in {this.state.city}</span></div>}
                             </div>
                             <div className="col s2">
                               <i class={`material-icons check ${this.state.locationVerified ? 'checked':''}`}>check</i>
                             </div>
 
 
-                        {/* Loading Bar */}
-                        {this.state.loading ? <div class="progress">
-                            <div class="indeterminate"></div>
-                        </div>:<div></div>}
-                        
+                                {/* Loading Bar */}
+                               
                         </div>
               </div>
              {/* dummy div */}
@@ -211,9 +210,9 @@ class Reviews extends Component {
               
 
           {/* Results */}
-    
+          <LoadingBar loading={this.state.loading}/>
             {renderRests()}
-     
+            
       
 
           {this.state.error ? <div>THERE IS AN ERROR</div>: <div></div>}

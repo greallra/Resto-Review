@@ -23,8 +23,8 @@
     padding: 13px;
 }
 .desktop-items a:hover {
-    background-color: #d64b3e;
-    background-color: black;
+    color: blanchedalmond;
+    opacity: 0.5;
 }
 .right-side {
     display: flex;
@@ -34,7 +34,7 @@
     padding: 13px 10px 13px;
 }
 .activePage {
-    background-color: black;
+    background-color: #da5d51;
 }
 #title {
     padding-left: 10px;
@@ -44,7 +44,7 @@
 }
 .menu:hover {
     cursor: pointer;
-    background-color: black;
+    background-color: #da5d51;
 }
 
 @media only screen and (min-width:700px) {

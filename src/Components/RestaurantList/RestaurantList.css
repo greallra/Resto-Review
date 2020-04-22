@@ -132,6 +132,7 @@
   animation: myStyle 5s infinite;
   padding:10px;
   border-radius: 5%;
+  white-space: nowrap;
 }
 @keyframes myStyle {
     0%   { color: rgba(30,30,30),}

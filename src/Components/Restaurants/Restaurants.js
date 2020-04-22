@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import {  withRouter } from 'react-router-dom';
 import RestaurantList from '../RestaurantList/RestaurantList';
 import './Restaurants.css';
+import { keys } from '../../keys';
 
-// import Dummy from './dummy'
-import SearchDiv from  './SearchDiv';
 
 const Restaurants = withRouter(props => <RestaurantsNoRouter  {...props}/>);
 class RestaurantsNoRouter extends Component {
@@ -47,7 +46,6 @@ class RestaurantsNoRouter extends Component {
             });
       })
       .catch((error)=>{
-          console.log(error);
           this.setState({error: true, loading: false});
       });
  
@@ -66,7 +64,7 @@ class RestaurantsNoRouter extends Component {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'user-key': 'f7a5b883bef34e0148437a909b393a96'
+        'user-key': keys.zomatoApiKey
       }
     })
     .then((res)=>{
@@ -97,26 +95,22 @@ class RestaurantsNoRouter extends Component {
     })
     .catch((err)=>{
       this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
-      console.log("catch err 1",err)
     })
   }
 
   renderRestaurants = ()=>{
     const url = `https://developers.zomato.com/api/v2.1/search?lat=${this.state.lat}&lon=${this.state.long}`;
-    console.log(url);
-    
     fetch(url, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'user-key': 'f7a5b883bef34e0148437a909b393a96'
+        'user-key': keys.zomatoApiKey
       }
     })
     .then((res)=>{
           return res.json();
     })
     .then((res)=>{
-      console.log(res)
       
       if(res.results_found){
         this.setState({
@@ -130,7 +124,7 @@ class RestaurantsNoRouter extends Component {
     })
     .catch((err)=>{
       // this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
-      console.log("catch err render rests", err)
+
     })
   }
 
@@ -140,8 +134,11 @@ class RestaurantsNoRouter extends Component {
   handleLocationInput = (e)=>{
     this.setState({inputLocation: e.target.value, searchButtonActive: true, loactionVerified: false});
   }
-  setLoading = (val)=>{   
+  setLoading = (val)=>{
       this.setState({loading: val})
+  }
+  componentDidUpdate() {
+
   }
 
   render() {
@@ -163,7 +160,7 @@ class RestaurantsNoRouter extends Component {
             </div>
             {/* Search Button */}
             <div className="button-cont">
-              <button className="btn" onClick={this.getLocation}>Search Restaurants</button>
+              <button className="btn" onClick={this.getLocation} style={{background: '#d64b3e'}}>Search Restaurants</button>
             </div>
 
             {/* Padding */}

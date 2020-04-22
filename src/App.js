@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from './Components/Home/Home';
 import Restaurants from './Components/Restaurants/Restaurants';
 import Reviews from './Components/Reviews/Reviews';
@@ -9,7 +9,7 @@ import ReviewDetail from './Components/Reviews/ReviewDetail';
 import MoreInfo from './Components/MoreInfo/MoreInfo';
 import Nav from './Components/Nav/Nav';
 import SideNav from './Components/SideNav/SideNav';
-import MyModal from './Components/MyModal/MyModal';
+
 
 class App extends React.Component {
   state ={
