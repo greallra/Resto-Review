@@ -65,6 +65,10 @@ header i {
 }
 header i:hover {
     cursor: pointer;
+    white-space: nowrap;
+}
+header a {
+    white-space: nowrap;
 }
 header a:hover {
     background-color:black;
@@ -78,6 +82,11 @@ header a:hover {
     color: #222; 
 }
 .sideNavFooter {
+    white-space: nowrap;
     padding: 10px;
     text-align: center;
+}
+
+.sideNavFooter i {
+    display: inline-block;
 }

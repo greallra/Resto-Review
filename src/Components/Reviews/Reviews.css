@@ -21,10 +21,10 @@ h2 {
 button { 
     width: 100%;
 }
-input {
-    font-size: 9px !important;
+.reviews-div input {
+    font-size: 9px;
 }
-input:focus {
+.reviews-div input:focus {
     border-bottom: 1px solid red !important;
     box-shadow: red !important;
     font-size: 9px !important;
@@ -55,12 +55,14 @@ color: red !important;
         grid-template-columns: 100%;
         grid-gap: 10px;
     }
+    .list-item:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 127px; 
+    }
 }
-.list-item {
-    /* display: flex;
-    justify-content: center; */
-  
-}
+
 
 @media only screen and (min-width: 600px) {
     .list-cont {

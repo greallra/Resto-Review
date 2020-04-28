@@ -52,6 +52,10 @@ class RestaurantsNoRouter extends Component {
    
   }
 
+  handleGetlocation = ()=>{
+    this.setState({loading: true},()=>{this.getLocation()})
+  }
+
   getLocation = ()=>{
     //set loading
     this.setState({loading: true})
@@ -137,9 +141,7 @@ class RestaurantsNoRouter extends Component {
   setLoading = (val)=>{
       this.setState({loading: val})
   }
-  componentDidUpdate() {
 
-  }
 
   render() {
     const styles = { display: this.state.visible ? 'block' : 'none'}
@@ -152,7 +154,8 @@ class RestaurantsNoRouter extends Component {
                     <div class="input-field">
                       <i class="material-icons prefix pencil">mode_edit</i>
                       <input type="text" name="location" id="searchTextField" size="50" placeholder="Enter a location" autocomplete="off" 
-                      onChange={(e)=>{this.handleLocationInput(e)}}/>        
+                      onChange={(e)=>{this.handleLocationInput(e)}}
+                      />        
                     </div>
                     <i class={`material-icons check2 ${this.state.loactionVerified ? 'check2active':''}`}>check</i>
               </div>
@@ -160,7 +163,7 @@ class RestaurantsNoRouter extends Component {
             </div>
             {/* Search Button */}
             <div className="button-cont">
-              <button className="btn" onClick={this.getLocation} style={{background: '#d64b3e'}}>Search Restaurants</button>
+              <button className="btn" onClick={this.handleGetlocation} style={{background: '#d64b3e'}}>Search Restaurants</button>
             </div>
 
             {/* Padding */}

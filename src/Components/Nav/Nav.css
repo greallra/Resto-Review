@@ -7,13 +7,21 @@
     top: 0;
     position: relative;
     z-index: 2;
+    padding: 0 18px;
 }
+@media only screen and (min-width: 900px){
+    .nav-cont > * {
+        width: 33%;
+    }
+}
+
 .nav-cont-darken {
     position: relative;
      z-index: 0;
 }
 .desktop-items {
     display: flex;
+    justify-content: center;
 }
 
 .desktop-items a {
@@ -29,6 +37,7 @@
 .right-side {
     display: flex;
     align-items: center;
+    position: relative;
 }
 .right-side i:nth-child(2){
     padding: 13px 10px 13px;
@@ -37,7 +46,7 @@
     background-color: #da5d51;
 }
 #title {
-    padding-left: 10px;
+
     display: flex;
     align-items: center;
     font-size: 10px;
@@ -46,9 +55,17 @@
     cursor: pointer;
     background-color: #da5d51;
 }
+#title {
 
+    padding: 16px 0;
+}
 @media only screen and (min-width:700px) {
     #title {
         font-size: 18px;
+        padding: 0;
     }
+}
+
+.material-icons {
+    cursor: pointer;
 }

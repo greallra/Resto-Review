@@ -3,6 +3,7 @@ import './ReviewDetail.css';
 import {keys} from '../../keys.js';
 import { withRouter } from 'react-router-dom';
 import RatingSpans from '../Elements/RatingSpans';
+import ReactLoader from '../Elements/ReactLoader';
 
 const HocWithRouter = withRouter(props => <ReviewDetails  {...props}/>);
 class ReviewDetails extends Component {
@@ -10,7 +11,11 @@ class ReviewDetails extends Component {
         totalReviews: 0,
         user_reviews: [],
         featured_image: "",
-        name: ""
+        name: "",
+        loading: false
+    }
+    componentWillMount() {
+        this.setState({loading: true})
     }
     componentDidMount() {
 
@@ -33,22 +38,27 @@ class ReviewDetails extends Component {
         .then(this.secondCall())
         .catch((err)=> alert(err))
     }
-    getReviews = ()=>{
-        return <ul>
-        {this.state.user_reviews.map((o)=>{
-
-        return <li className="reviewDetailLi">
-                <div className="profile"><span><img src={o.review.user.profile_image} alt="hey" id="profile_image"/></span><span>{o.review.user.name}</span></div>
-                <div className="review-info">
-                    <div className="top-col"><span><RatingSpans rating={o.review.rating}/></span><span>{o.review.timestamp}</span><span>Device</span></div>
-                    <h5>Comments: </h5>
-                    <p className="rating_text">"{o.review.rating_text}"</p>
-                    <div className="bottom-col"><p><i class="fa fa-thumbs-up"></i> : {o.review.likes}</p><p>{o.review.review_time_friendly}</p></div>
-                </div>
-            </li>     
-            })}
-       </ul>
+    getHtml = ()=>{
+        
     }
+
+    renderHtml = ()=>{
+        return <ul>
+                {this.state.user_reviews.map((o)=>{
+
+                return <li className="reviewDetailLi">
+                        <div className="profile"><span><img src={o.review.user.profile_image} alt="hey" id="profile_image"/></span><span>{o.review.user.name}</span></div>
+                        <div className="review-info">
+                            <div className="top-col"><span><RatingSpans rating={o.review.rating}/></span><span>{o.review.timestamp}</span><span>Device</span></div>
+                            <h5>Comments: </h5>
+                            <p className="rating_text">"{o.review.rating_text}"</p>
+                            <div className="bottom-col"><p><i class="fa fa-thumbs-up"></i> : {o.review.likes}</p><p>{o.review.review_time_friendly}</p></div>
+                        </div>
+                    </li>
+                })}
+               </ul>  
+    }
+
     secondCall = ()=>{
         const fetchOptions2 = {
             method: "GET",
@@ -66,17 +76,20 @@ class ReviewDetails extends Component {
                 featured_image: res.featured_image
             })
         })
+        .then(()=>{this.setState({loading: false})})
         .catch(e=>{alert(e)})
     }
+  
     render() {
         return <div className="reviewDetailCont">
-            <h3>{this.state.totalReviews} reviews of:</h3>
-            <h4>{this.state.name}</h4>
+            {this.state.loading ? <h2>Loading</h2>:
+            <div>
+                <h3>{this.state.totalReviews} reviews of:</h3>
+                <h4>{this.state.name}</h4>
             <div className="img-cont"><img src={this.state.featured_image} alt="hey" className="review-detail-img"/></div>
-           
-                {this.state.user_reviews.length > 0 ? this.getReviews(): <div></div>}
-             
-       
+            </div>
+            }
+            {this.state.loading ? <ReactLoader />: this.renderHtml()}
         </div>
     }
 

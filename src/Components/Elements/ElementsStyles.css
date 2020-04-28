@@ -1,0 +1,14 @@
+.vanish {
+    display: none;
+}
+#email{
+    border-bottom: 1px solid blanchedalmond !important;
+    box-shadow: none !important;
+    color: blanchedalmond !important;
+}
+#email:focus {
+    border-bottom: none!important;
+}
+#email:active {
+    border-bottom: none!important;
+}

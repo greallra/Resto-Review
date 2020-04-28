@@ -168,7 +168,7 @@ class Reviews extends Component {
                 <div className="col s12"><h2>Search for Restaurant to Review</h2></div> 
            </div>
            
-           <div className="row">
+           <div className="row reviews-div">
              {/* dummy div */}
              <div className="col s0 m2 l3"></div>
                 {/* Real Div */}
