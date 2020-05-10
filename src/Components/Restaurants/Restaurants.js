@@ -3,33 +3,57 @@ import {  withRouter } from 'react-router-dom';
 import RestaurantList from '../RestaurantList/RestaurantList';
 import './Restaurants.css';
 import { keys } from '../../keys';
+import LoadingBar from  '../Elements/LoadingBar';
+import { Alert } from 'react-bootstrap';
+import LoadingOverlay from  '../Elements/LoadingOverlay';
+import ErrorDiv from '../Elements/ErrorDiv';
+import Filter from '../Elements/Filter';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
+// function SweetAlert(props) {
+
+// }
 
 const Restaurants = withRouter(props => <RestaurantsNoRouter  {...props}/>);
 class RestaurantsNoRouter extends Component {
   state = {
-    visible: true,
-    searchDivActive: false,
     searchButtonActive: false,
-    locationSearchActive: false,
+    newSearch: false,
     loactionVerified: false,
     loading: false,
+    preMountLoading: false,
     error: false,
     errorMessage: "",
+    errorMessageUser: "",
     lat: null,
     long: null,
     cityName: "Dublin, Ireland",
-    entity_id: null, 
     countryName: "",
     restsFound: 0,
-    restsList: [],
+    fullRestList: [],
+    filterRestList: null,
     inputLocation: "",
+    defaultLocation: true,
+    cuisineOption: "",
+    Italian: false,
+    American: false,
+    Irish: false,
+    Spanish: false,
+    Steak: false,
+    Thai: false,
+    CheapEats: false,
+    MidRange: false,
+    FineDining: false,
+  }
+  componentWillMount() {
+    this.setState({preMountLoading: true});
   }
   componentDidMount() {
-    this.defaultRestaurantsBrowserLocation();
+    if(this.state.defaultLocation) {
+      this.defaultRestaurantsBrowserLocation();
+    } 
   }
   defaultRestaurantsBrowserLocation =(e)=>{
-
     this.setState({loading: true});
       const geolocation = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
@@ -38,32 +62,27 @@ class RestaurantsNoRouter extends Component {
         )
       })
       .then((res)=>{
+        console.log("res.status", res);
+        
           this.setState({
                   lat: res.latitude,
                   long: res.longitude
             },()=>{
-              this.renderRestaurants();        
+              this.fetchRests();        
             });
       })
       .catch((error)=>{
           this.setState({error: true, loading: false});
       });
- 
-   
   }
 
-  handleGetlocation = ()=>{
-    this.setState({loading: true},()=>{this.getLocation()})
-  }
-
-  getLocation = ()=>{
+  getNewLocation = ()=>{
     //set loading
     this.setState({loading: true})
     // Next Api Searc: Restaurants
     let url;
     let location = this.state.inputLocation
     url = `https://developers.zomato.com/api/v2.1/locations?query=${location}&user-key=f7a5b883bef34e0148437a909b393a96`;
-    
     fetch(url, {
       method: "GET",
       headers: {
@@ -73,7 +92,10 @@ class RestaurantsNoRouter extends Component {
     })
     .then((res)=>{
       if(res.status !== 200) {
-          this.setState({error: true, errorMessage: res.status, loading: false});
+          this.setState({error: true, 
+            errorMessage: "error in getNewLocation", 
+            errorMessageUser:"Sorry Couldnt get that location",
+             loading: false});
           alert("error in then : status")
       } else {
           return res.json();
@@ -81,6 +103,8 @@ class RestaurantsNoRouter extends Component {
     })
     .then((res)=>{
       //Check which results set we got: /locations ir /searc
+      console.log("getNewLocation", res);
+      
       if(res.location_suggestions){
         this.setState({
           error: false, 
@@ -89,20 +113,23 @@ class RestaurantsNoRouter extends Component {
           cityName:   res.location_suggestions[0].city_name,
           countryName: res.location_suggestions[0].country_name,
           loading: false,
-          loactionVerified: true
+          loactionVerified: true,
+          newSearch: true
         }, ()=>{
-          
-          this.renderRestaurants();
-        
+          this.fetchRests();   
         });
       }
     })
     .catch((err)=>{
-      this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
+      console.log("err  getNewLocation", err);  
+      this.setState({error: true, 
+        errorMessage: "error setting state with repsonse",
+        errorMessageUser: "Sorry, couldn't get that location",
+        loading: false});
     })
   }
 
-  renderRestaurants = ()=>{
+  fetchRests = ()=>{
     const url = `https://developers.zomato.com/api/v2.1/search?lat=${this.state.lat}&lon=${this.state.long}`;
     fetch(url, {
       method: "GET",
@@ -115,46 +142,113 @@ class RestaurantsNoRouter extends Component {
           return res.json();
     })
     .then((res)=>{
+      console.log("fetchRests results", res);
       
       if(res.results_found){
         this.setState({
-          error: false,
+          preMountLoading: false,
           restsFound: res.results_found,
-          restsList: res.restaurants,
-          restsListActive: true,
-          loading: false
+          fullRestList: res.restaurants,
+          loading: false,
+
         });
       }
     })
     .catch((err)=>{
-      // this.setState({error: true, errorMessage: "error setting state with repsonse", loading: false});
+      this.setState({error: true, errorMessage: "Sorry,...", loading: false});
 
     })
   }
-
   cancelSearch =()=>{
       this.setState({searchDivActive: false, inputLocation: "", searchButtonActive: false}); 
   }
+
   handleLocationInput = (e)=>{
-    this.setState({inputLocation: e.target.value, searchButtonActive: true, loactionVerified: false});
+    this.setState({inputLocation: e.target.value, loactionVerified: false});
   }
-  setLoading = (val)=>{
-      this.setState({loading: val})
+  
+  handleFilterOptions = (e)=>{
+    console.log("handleFilterOptions", e.target.value);
+
+  this.setState({[e.target.value]: !this.state[e.target.value]},()=>{this.filt()})
   }
 
+  filt = ()=>{
+    console.clear();
+     //Check 1 what's ticked and filter accordindly 2 Nothing ticked then empty array
+     let filtered;
+     let cuisineOption = this.state.cuisineOption;
+     let diningOption = this.state.diningOption;
+     let diningRating = this.state.diningRating;
+     let list = this.state.fullRestList
+
+    let filterOptions = {
+      cuisineOptions:[],
+      diningOptions:[],
+    }
+     
+     //check state for cuisine type
+     let o = this.state
+     let cusines = []
+     for(let prop in o) {
+      if(prop === "Italian" || prop === "American" || prop === "Irish" || prop === "Spanish" || prop === "Steak" ||prop === "Thai"){
+        if(this.state[prop]) {
+          filterOptions.cuisineOptions.push(prop)
+        }
+      }
+      if(prop === "CheapEats"||prop === "MidRange"||prop === "FineDining") {
+        if(this.state[prop]) {
+          filterOptions.diningOptions.push(prop)
+        }
+      }
+     }
+
+     let filteredList = list.filter((o)=>{
+      let toReturnOrNot = true;
+      let cuisines = o.restaurant.cuisines.toLowerCase();
+      let dining = o.restaurant.establishment[0];
+
+      filterOptions.cuisineOptions.forEach((option)=>{
+        if(cuisines.includes(option.toLowerCase())) {
+          console.log("if")
+          console.log("option", option.toLowerCase())
+          console.log("cuisines", cuisines)
+          toReturnOrNot = true;
+        }
+        else {
+          console.log("else")
+          console.log("option", option.toLowerCase())
+          console.log("cuisines", cuisines)
+          toReturnOrNot = false;
+        }
+      })
+      return toReturnOrNot;
+
+    })
+     console.log("filter list", filteredList)
+     console.log("normal list", list)
+     this.setState({filterRestList: filteredList})
+  }
+
+  handleTryAgain = (e)=>{
+    e.preventDefault();
+    this.setState({error: false, errorMessage: ""})
+  }
 
   render() {
-    const styles = { display: this.state.visible ? 'block' : 'none'}
-    const error = { display: this.state.error ? 'block' : 'none' }
-   
-    return <div className="">
+   const newSearch = this.state.newSearch;
+    
+    const list = this.state.filterRestList ? this.state.filterRestList : this.state.fullRestList;
+    console.log();
+    if(this.state.preMountLoading) {return <LoadingOverlay />}
+    return <div className="" style={{padding: '10px'}}>
             <div class="row"><div class="col s12"><h2>Search for Restaurants</h2> </div></div>
             <div class="row">
               <div className="location-cont">
                     <div class="input-field">
                       <i class="material-icons prefix pencil">mode_edit</i>
                       <input type="text" name="location" id="searchTextField" size="50" placeholder="Enter a location" autocomplete="off" 
-                      onChange={(e)=>{this.handleLocationInput(e)}}
+                      onChange={this.handleLocationInput}
                       />        
                     </div>
                     <i class={`material-icons check2 ${this.state.loactionVerified ? 'check2active':''}`}>check</i>
@@ -163,24 +257,28 @@ class RestaurantsNoRouter extends Component {
             </div>
             {/* Search Button */}
             <div className="button-cont">
-              <button className="btn" onClick={this.handleGetlocation} style={{background: '#d64b3e'}}>Search Restaurants</button>
+              <input 
+              className="btn" 
+              onClick={this.getNewLocation} 
+              style={{background: '#d64b3e'}}
+              disabled={!this.state.inputLocation}
+              value={newSearch ? "New Search": "Search Restaurants"}
+              type="button"
+              />
             </div>
 
             {/* Padding */}
-              <div style={{height: '20px'}}></div>
-            <RestaurantList defaultRestsList={this.state.restsList} city={this.state.cityName} setLoading={this.setLoading} loading={this.state.loading}/>
-
-              {/* <Link 
-                onClick={this.props.history.goBack}
-                className="waves-effect black waves-light btn red">
-                  <span className="">Back</span>
-              </Link> */}
-              
-             
-
-              <div style={error}></div>
-              {/* Dummy Component */}
-              {/* <Dummy restsList={data}></Dummy> */}
+            <div style={{height: '20px'}}></div>
+            {this.state.error ?<Alert key={1} variant={'danger'}>{this.state.errorMessageUser} : <a id="try-again" onClick={this.handleTryAgain}>Try again ?</a></Alert>:
+            <div>
+              <Filter handleFilterOptions={this.handleFilterOptions}/>
+              <RestaurantList 
+                rests={list} 
+                city={this.state.cityName} 
+                loading={this.state.loading}
+              />
+              </div>
+            }
     </div>
   }
 }

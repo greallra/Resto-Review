@@ -1,35 +1,4 @@
 
-/* 
-<div style={styles}>
-          {this.filterBar()}
-          <div className="loading-text">Displaying Restaurants in {this.props.city}</div>
-          <div className="rests-wrapper">
-              {restaurants}
-          </div>
-        </div>
-
-*/
-
-.filterbar {
-    display: grid;
-    padding: 35px 10px;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
-}
-.filterbar form label {
-    display: block;
-    padding-left: 0px;
-}
-
-@media only screen and (min-width: 1000px){
-    .filterbar form p {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    .filterbar label {
-        padding: 4px 10px;
-    }
-}
 
 .rests-wrapper {
     width: 100%;
@@ -66,7 +35,11 @@
    max-width: 200px;
    height: auto;
 }
-
+/* Fake Map */
+#fakeMap {
+    width: 100%;
+    height: 100%;
+}
 /* 1 */
 .img-wrapper {
     order:1;

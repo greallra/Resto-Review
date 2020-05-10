@@ -12,3 +12,27 @@
 #email:active {
     border-bottom: none!important;
 }
+.errorDiv {
+    background: red;;
+}
+
+.filterbar {
+    display: grid;
+    padding: 35px 10px;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+.filterbar form label {
+    display: block;
+    padding-left: 0px;
+}
+
+@media only screen and (min-width: 1000px){
+    .filterbar form p {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .filterbar label {
+        padding: 4px 10px;
+    }
+}

@@ -3,16 +3,10 @@ import { Link } from 'react-router-dom'
 import './Home.css'
 
 class Home extends Component {
-  state = {
-    visible: true
-  }
-  
   render() {
-    const styles = { display: this.state.visible ? 'block' : 'none' }
-    return <div style={styles} className="container">
+    return <div className="container">
               <h1 
-              className="center-align homepage-h1">
-           
+              className="center-align homepage-h1"> 
               </h1>
               <div>
                <Link 
@@ -25,10 +19,7 @@ class Home extends Component {
                className="waves-effect waves-light btn home-btn center-align link">
                  <span className="center-vertically">Get Restaurant Reviews</span>
                 </Link>
-              </div>
-                 
-        
-           
+              </div>  
     </div>
   }
 }

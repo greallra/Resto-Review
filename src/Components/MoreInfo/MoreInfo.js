@@ -166,10 +166,10 @@ class MoreInfoChild extends Component {
             <div className="map-review-section">
                 <div className="map-outer">
                   <div className="shtyle">  
-                    <MapContainer
+                    {/* <MapContainer
                       lat={this.state.lat}
                       long={this.state.long}
-                          />
+                          /> */}
                   </div>
                 </div>
                 <ul className="reviews-ul">
