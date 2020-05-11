@@ -6644,44 +6644,11 @@ class App extends React.Component {
     this.setState({sideNavActive: !this.state.sideNavActive})
   }
   componentDidMount() {
-    let filterOptions = {
-      cuisineOptions:[],
-      diningOptions:[],
-    }
-
-    let filtered = data.filter((o)=>{
-      let toReturnOrNot = true;
-      let cuisines = o.restaurant.cuisines.toLowerCase();
-   
-      let dining = o.restaurant.establishment[0];
-      filterOptions.cuisineOptions.forEach((option)=>{
-   
-        if(cuisines.includes(option.toLowerCase())) {
-          console.log("if")
-          console.log("option", option.toLowerCase())
-          console.log("cuisines", cuisines)
-          toReturnOrNot = true;
-        }
-        else {
-          console.log("else")
-          console.log("option", option.toLowerCase())
-          console.log("cuisines", cuisines)
-          toReturnOrNot = false;
-        }
-      })
-      return toReturnOrNot;
-
-    })
-
-    console.log("unfiltered", data)
-    console.log("filtered", filtered)
-
+  
   }
   render(){
     return (
       <BrowserRouter>
-       
-       
         <Nav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}></Nav>
         <div className={`App ${this.state.sideNavActive ? 'overlayActive':''} `}>
         <Switch>

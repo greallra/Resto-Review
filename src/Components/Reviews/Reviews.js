@@ -10,13 +10,15 @@ class Reviews extends Component {
     locationText : "",
     locationVerified: false,
     error: false,
+    errorMsg:"",
+    errorMsgUser: "",
     lat: null,
     long: null,
     rests : [],
     loading: false
   }
-  componentWillUpdate() {
-   
+  componentWillMount() {
+  //  this.setState
   }
   componentDidMount() {
    //set state with dummy data for now
@@ -80,8 +82,15 @@ class Reviews extends Component {
          
         })
     }catch(err){
+   this.setState({
+     error: true, 
+     errorMsg: "autofill catch", 
+     errorMsgUser: "Couldnt get that location, please try again.",
+     locationVerified: false,
+     locationText: ""
+    })
     }
-          // this.setState({locationText: newSearchValue},()=>{})
+       
      
   }
 
@@ -107,7 +116,13 @@ class Reviews extends Component {
       },()=>{this.getRests()});
     })
     .catch(()=>{
-      this.setState({error: true})
+      this.setState({
+        error: true, 
+        errorMsg: "handleCheckLocation catch", 
+        errorMsgUser: "Couldnt get that location, please try again.",
+        locationVerified: false,
+        locationText: ""
+      })
     })
   }
   
@@ -139,13 +154,22 @@ class Reviews extends Component {
   handleLocationText = (e)=>{
     this.setState({locationText: e.target.value, locationVerified: false})
   }
+  handleTryAgain = (e)=>{
+    e.preventDefault();
+    this.setState({error: false, errorMsg: "", errorMsgUser: "", })
+  }
   
   render() {
     const test = ' test';
     const renderRests = ()=>{
-      
-      if(this.state.rests.length === 0) {
+      if(this.state.error){
+        return <div className="danger">{this.state.errorMsgUser} <a onClick={this.handleTryAgain}>Try Again?</a></div>
+      }
+      else if(this.state.rests.length === 0) {
         return <div>no Results</div>
+      }
+      else if(this.state.loading) {
+        return <div>loading</div>
       }
       else {
       return <div className="list-cont">{this.state.rests.map((rest, i)=>{
@@ -174,7 +198,7 @@ class Reviews extends Component {
                 {/* Real Div */}
              <div className="col s12 m8 l6">
                       <div className="row">
-                          <div className="col s10">
+                          <div className="col s12">
                             <div className="input-field">
                               <i className="material-icons prefix pencil">mode_edit</i>
                               <input 
@@ -182,9 +206,8 @@ class Reviews extends Component {
                                   name="location"
                                   id="searchTextField" 
                                   size="50" 
-                                  // value={this.state.searchText} 
+                                  value={this.state.locationText} 
                                   onChange={(e)=>{this.handleLocationText(e)}}
-                                  // className={`unopacified ${this.state.modalOpen ? "opacified": ""}`}
                               />
                               </div>
                               {/* Min Height Container */}
@@ -194,28 +217,21 @@ class Reviews extends Component {
                               </div>
                               {this.state.locationVerified ? <h2 className="loading-text"><span>Displaying Reviews...<span></span></span></h2> : <div className="loading-text"><span>Displaying Reviews in {this.state.city}</span></div>}
                             </div>
-                            <div className="col s2">
-                              <i class={`material-icons check ${this.state.locationVerified ? 'checked':''}`}>check</i>
+                        
+                            <div className="col s12" style={{textAlign: 'center'}}>
+                            <i class={`material-icons check ${this.state.locationVerified ? 'checked':''}`}>check</i>
                             </div>
-
-
-                                {/* Loading Bar */}
                                
-                        </div>
+                      </div>
               </div>
              {/* dummy div */}
              <div className="col s0 m2 l3"></div>
            </div>
-
-              
-
-          {/* Results */}
-          <LoadingBar loading={this.state.loading}/>
             {renderRests()}
             
       
 
-          {this.state.error ? <div>THERE IS AN ERROR</div>: <div></div>}
+     
  
 
     </div>

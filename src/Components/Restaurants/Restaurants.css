@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding:  20px 50px;
 }
 .location-cont .inout-field {
     width: 55%;
@@ -36,4 +36,26 @@
 }
 #try-again:hover {
     cursor: pointer;
+}
+.loading-text span {
+    max-width: 300px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+/* Input override materialize */
+#searchTextField {
+    border-bottom: 1px solid #d64b3e;
+    box-shadow: none;
+}
+.check-cont {
+    display: flex;
+    justify-content: center;
+}
+.danger {
+    background-color: #F8D7DA;
+    padding: 20px 40px;
+    margin: auto;
+    max-width: 300px;
+    border-radius: 2%;
 }

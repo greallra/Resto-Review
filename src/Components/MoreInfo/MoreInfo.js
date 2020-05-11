@@ -5,11 +5,13 @@ import './MoreInfo.css'
 import MapContainer from './MapContainer';
 import { Link } from "react-router-dom";
 import { keys } from '../../keys';
+import ReactLoader from '../Elements/ReactLoader';
 
 const MoreInfo = withRouter(props => <MoreInfoChild {...props}/>);
 
 class MoreInfoChild extends Component {
   state = {
+    loading: true,
     visible: true,
     restaurantID: null,
     resName: "",
@@ -28,6 +30,9 @@ class MoreInfoChild extends Component {
     resHourClosing: 0,
   }
 
+  componentWillMount() {
+    this.setState({loading: true})
+  }
  componentDidMount() {
    //resize listener
    var w = window.innerWidth;
@@ -119,7 +124,7 @@ class MoreInfoChild extends Component {
 
  }
  seeIfOpen = ()=>{
-
+  this.setState({loading: false})
  }
 
  getRatingHtml = ()=>{
@@ -149,9 +154,10 @@ class MoreInfoChild extends Component {
   render() {
     const photos =this.state.resPhotos;
 
-    const rating = this.getRatingHtml()
+    const rating = this.getRatingHtml();
+    const loading = this.state.loading;
 
-    return <div className="container">
+    return loading? <ReactLoader />:<div className="container">
       {photos.length === 0 ? <div></div>:
       <div className="container">
         <div className="row">
@@ -183,9 +189,14 @@ class MoreInfoChild extends Component {
               </div>
             </div>{/* col*/}
         </div>{/* row*/}
-        <Link 
-        onClick={this.props.history.goBack}
-        className="row">Go Back</Link>
+        <div className="row">
+          <div className="col s12">
+              <Link 
+              onClick={this.props.history.goBack}
+              className="row more-info2">Go Back</Link>
+        </div>
+        </div>
+        
       </div>
             
       }

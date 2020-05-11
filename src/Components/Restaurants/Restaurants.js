@@ -17,7 +17,6 @@ import Filter from '../Elements/Filter';
 const Restaurants = withRouter(props => <RestaurantsNoRouter  {...props}/>);
 class RestaurantsNoRouter extends Component {
   state = {
-    searchButtonActive: false,
     newSearch: false,
     loactionVerified: false,
     loading: false,
@@ -96,7 +95,6 @@ class RestaurantsNoRouter extends Component {
             errorMessage: "error in getNewLocation", 
             errorMessageUser:"Sorry Couldnt get that location",
              loading: false});
-          alert("error in then : status")
       } else {
           return res.json();
       }
@@ -154,13 +152,17 @@ class RestaurantsNoRouter extends Component {
         });
       }
     })
+    .then(()=>{
+      window.scroll({top: 700, left: 0, behavior: 'smooth' })
+    })
     .catch((err)=>{
       this.setState({error: true, errorMessage: "Sorry,...", loading: false});
 
     })
   }
+
   cancelSearch =()=>{
-      this.setState({searchDivActive: false, inputLocation: "", searchButtonActive: false}); 
+      this.setState({inputLocation: "", loactionVerified: false}); 
   }
 
   handleLocationInput = (e)=>{
@@ -176,10 +178,6 @@ class RestaurantsNoRouter extends Component {
   filt = ()=>{
     console.clear();
      //Check 1 what's ticked and filter accordindly 2 Nothing ticked then empty array
-     let filtered;
-     let cuisineOption = this.state.cuisineOption;
-     let diningOption = this.state.diningOption;
-     let diningRating = this.state.diningRating;
      let list = this.state.fullRestList
 
     let filterOptions = {
@@ -210,23 +208,23 @@ class RestaurantsNoRouter extends Component {
 
       filterOptions.cuisineOptions.forEach((option)=>{
         if(cuisines.includes(option.toLowerCase())) {
-          console.log("if")
-          console.log("option", option.toLowerCase())
-          console.log("cuisines", cuisines)
+          // console.log("if")
+          // console.log("option", option.toLowerCase())
+          // console.log("cuisines", cuisines)
           toReturnOrNot = true;
         }
         else {
-          console.log("else")
-          console.log("option", option.toLowerCase())
-          console.log("cuisines", cuisines)
+          // console.log("else")
+          // console.log("option", option.toLowerCase())
+          // console.log("cuisines", cuisines)
           toReturnOrNot = false;
         }
       })
       return toReturnOrNot;
 
     })
-     console.log("filter list", filteredList)
-     console.log("normal list", list)
+    //  console.log("filter list", filteredList)
+    //  console.log("normal list", list)
      this.setState({filterRestList: filteredList})
   }
 
@@ -237,31 +235,41 @@ class RestaurantsNoRouter extends Component {
 
   render() {
    const newSearch = this.state.newSearch;
+   const inputLocation = this.state.inputLocation
     
     const list = this.state.filterRestList ? this.state.filterRestList : this.state.fullRestList;
     console.log();
-    if(this.state.preMountLoading) {return <LoadingOverlay />}
+    if(this.state.preMountLoading) {return <div>
+      <LoadingOverlay />
+      <div className="loading-text" style={{padding:'80px', marginTop: '50px'}}>
+        <span>Getting Restaurants in your location</span>
+      </div>
+      </div>}
     return <div className="" style={{padding: '10px'}}>
-            <div class="row"><div class="col s12"><h2>Search for Restaurants</h2> </div></div>
-            <div class="row">
+            <div className="row"><div className="col s12"><h2>Search for Restaurants</h2> </div></div>
+            <div className="row">
               <div className="location-cont">
-                    <div class="input-field">
-                      <i class="material-icons prefix pencil">mode_edit</i>
-                      <input type="text" name="location" id="searchTextField" size="50" placeholder="Enter a location" autocomplete="off" 
+                    <div className="input-field">
+                      <i className="material-icons prefix pencil">mode_edit</i>
+                      <input type="text" name="location" id="searchTextField" size="50" placeholder="Enter a location" autocomplete="off"
+                      value={inputLocation}
                       onChange={this.handleLocationInput}
-                      />        
+                      />     
                     </div>
-                    <i class={`material-icons check2 ${this.state.loactionVerified ? 'check2active':''}`}>check</i>
+                    {inputLocation ? <i className="material-icons prefix pencil" onClick={this.cancelSearch}>close</i>:<i className="material-icons prefix pencil" onClick={this.cancelSearch} style={{visibility:'hidden'}}>close</i>}
               </div>
-
+              <div className="check-cont">
+                <i className={`material-icons check2 ${this.state.loactionVerified ? 'check2active':''}`}>check</i>
+              </div>
             </div>
             {/* Search Button */}
+           
             <div className="button-cont">
               <input 
               className="btn" 
               onClick={this.getNewLocation} 
               style={{background: '#d64b3e'}}
-              disabled={!this.state.inputLocation}
+              disabled={!inputLocation}
               value={newSearch ? "New Search": "Search Restaurants"}
               type="button"
               />
@@ -269,10 +277,10 @@ class RestaurantsNoRouter extends Component {
 
             {/* Padding */}
             <div style={{height: '20px'}}></div>
-            {this.state.error ?<Alert key={1} variant={'danger'}>{this.state.errorMessageUser} : <a id="try-again" onClick={this.handleTryAgain}>Try again ?</a></Alert>:
+            {this.state.error ?<div key={1} className="alert danger" variant={'danger'}>{this.state.errorMessageUser} : <a id="try-again" onClick={this.handleTryAgain}>Try again ?</a></div>:
             <div>
               <Filter handleFilterOptions={this.handleFilterOptions}/>
-              <RestaurantList 
+              <RestaurantList
                 rests={list} 
                 city={this.state.cityName} 
                 loading={this.state.loading}

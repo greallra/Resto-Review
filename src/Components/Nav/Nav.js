@@ -69,7 +69,7 @@ export default class Nav extends Component {
         {this.state.windowSize.windowWidth > 900 ? <TextInput searchActive={this.state.searchActive} handleSearchInput={this.handleSearchInput}/> : <div></div>}
         {this.state.windowSize.windowWidth < 600 ? <i className="material-icons menu" onClick={this.handleSideNavToggle}>menu</i>: <i></i>}
         {this.state.searchActive ? <i className="material-icons" onClick={this.toggleSearch} style={{marginLeft: '5px'}}>close</i>: <i></i>}
-        {this.state.searchVal.length === 0 ? <div></div> :<SearchResults searchText={this.state.searchVal}/> }
+        {this.state.searchVal.length === 0 ? <div></div> :<SearchResults searchText={this.state.searchVal} searchActive={this.state.searchActive}/> }
     </div>
     
     <WindowSizeListener onResize={windowSize => {
