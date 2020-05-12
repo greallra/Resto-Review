@@ -61,8 +61,6 @@ class RestaurantsNoRouter extends Component {
         )
       })
       .then((res)=>{
-        console.log("res.status", res);
-        
           this.setState({
                   lat: res.latitude,
                   long: res.longitude
@@ -71,7 +69,14 @@ class RestaurantsNoRouter extends Component {
             });
       })
       .catch((error)=>{
-          this.setState({error: true, loading: false});
+          this.setState({
+              error: true, 
+              loading: false,
+              preMountLoading: false,
+              errorMessage: "geolocation fetch err",
+              errorMessageUser: "Sorry, could get your location"
+            }
+            );
       });
   }
 
@@ -80,7 +85,7 @@ class RestaurantsNoRouter extends Component {
     this.setState({loading: true})
     // Next Api Searc: Restaurants
     let url;
-    let location = this.state.inputLocation
+    let location = this.state.inputLocation;
     url = `https://developers.zomato.com/api/v2.1/locations?query=${location}&user-key=f7a5b883bef34e0148437a909b393a96`;
     fetch(url, {
       method: "GET",
@@ -91,18 +96,17 @@ class RestaurantsNoRouter extends Component {
     })
     .then((res)=>{
       if(res.status !== 200) {
-          this.setState({error: true, 
+          this.setState({
+            error: true, 
             errorMessage: "error in getNewLocation", 
-            errorMessageUser:"Sorry Couldnt get that location",
+            errorMessageUser:"So sorry, Couldnt get that location",
              loading: false});
       } else {
           return res.json();
       }
     })
     .then((res)=>{
-      //Check which results set we got: /locations ir /searc
-      console.log("getNewLocation", res);
-      
+
       if(res.location_suggestions){
         this.setState({
           error: false, 
@@ -119,10 +123,9 @@ class RestaurantsNoRouter extends Component {
       }
     })
     .catch((err)=>{
-      console.log("err  getNewLocation", err);  
       this.setState({error: true, 
         errorMessage: "error setting state with repsonse",
-        errorMessageUser: "Sorry, couldn't get that location",
+        errorMessageUser: "We are sorry, couldn't get that location",
         loading: false});
     })
   }

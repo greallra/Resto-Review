@@ -18,9 +18,15 @@ class App extends React.Component {
     this.setState({sideNavActive: !this.state.sideNavActive})
   }
   componentDidMount() {
-  
+    
   }
-  render(){
+  render(){//quick fix for nav menu
+    let root = document.getElementById('root');
+    if(this.state.sideNavActive) {
+      root.style.position = "fixed";
+    } else {
+      root.style.position = "relative";
+    }
     return (
       <BrowserRouter>
         <Nav changeSideNavState={this.changeSideNavState} sideNavActive={this.state.sideNavActive}></Nav>

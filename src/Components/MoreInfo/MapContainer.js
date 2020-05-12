@@ -34,16 +34,16 @@ class MapContainer extends Component {
       }
       
         return (
-          <Map
-          google={this.props.google}
-          zoom={15}
-          style={mapStyles}
-          initialCenter={latLong}
-          >
-          <Marker position={latLong} />
+          // <Map
+          // google={this.props.google}
+          // zoom={15}
+          // style={mapStyles}
+          // initialCenter={latLong}
+          // >
+          // <Marker position={latLong} />
 
-          </Map>
-           
+          // </Map>
+          <img src={"https://via.placeholder.com/150"} alt="" id="fakeMap" style={mapStyles}/> 
         );
   }
 }

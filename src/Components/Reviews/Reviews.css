@@ -61,6 +61,10 @@ color: red !important;
 }
 #searchTextField {
     font-size: 11px;
+   
+}
+.reviews-div .input-field {
+    padding: 0 20px;
 }
 @media only screen and (min-width: 600px) {
     .list-block {
